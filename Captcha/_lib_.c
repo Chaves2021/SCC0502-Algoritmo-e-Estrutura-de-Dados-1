@@ -31,7 +31,7 @@ char *alocString(){
 FILE *createFile(){
 	FILE *file;
 	char *arquivo;
-	arquivo = declararString();
+	arquivo = alocString();
 	if(!arquivo)
 		return ALOCATION_ERROR;
 
@@ -64,4 +64,28 @@ int **readImage(FILE *file, int largura, int altura){
 		}
 	}
 	return matriz_captcha;
+}
+
+void bubbleSort(int *valor){
+}
+
+void medianFilter(int **matriz_captcha, int largura, int altura){
+	int edgex, edgey, x, y, cont;
+	int fx, fy;
+	int *valor;
+	valor = (int *) malloc(altura * largura * sizeof(int));
+	edgex = largura / 2;
+	edgey = altura / 2;
+	for(x = 0; x < (largura - edgex); x++){
+		for(y = 0; y < (altura - edgey); y++){
+			cont = 0;
+			for(fx = 0; fx < largura; fx++){
+				for(fy = 0; fy < altura; fy++){
+					valor[cont] = matriz_captcha[x + fx - edgex][y + fy - edgey];
+					cont++;
+					bubbleSort(valor);
+				}
+			}
+		}
+	}
 }

@@ -10,5 +10,7 @@ int **alocMatrix(int, int);
 void imageSize(FILE *, int *, int *);
 int **readImage(FILE *, int, int);
 int free(int **, int);
+int numberCompare(int **);
+void medianFilter(int **, int, int);
 
 #endif
