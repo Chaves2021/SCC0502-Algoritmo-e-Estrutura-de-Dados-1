@@ -57,6 +57,7 @@ void imageSize(FILE *file, int *largura, int *altura){
 int **readImage(FILE *file, int largura, int altura){
 	int i, j;
 	int **matriz_captcha;
+
 	matriz_captcha = alocMatrix(largura, altura);
 	for(i = 0; i < altura; i++){
 		for(j = 0; j < largura; j++){
@@ -68,7 +69,7 @@ int **readImage(FILE *file, int largura, int altura){
 
 void bubbleSort(int *valor){
 	int tamanho, i, j, aux;
-	tamanho = sizeof(valor) / sizeof(valor[0]);
+	tamanho = 9;
 	for(i = 0; i < tamanho -1; i++){
 		for(j = i + 1; j < tamanho; j++){
 			if(valor[i] > valor [j]){
@@ -81,27 +82,23 @@ void bubbleSort(int *valor){
 }
 
 void medianFilter(int **matriz_captcha, int largura, int altura){
-	int edgex, edgey, x, y, cont;
-	int xtotal, ytotal;
-	int fx, fy;
+	int x, y;
 	int *valor;
-	valor = (int *) malloc(altura * largura * sizeof(int));
-	edgex = largura / 2;
-	edgey = altura / 2;
-	for(x = 0; x < (largura - edgex); x++){
-		for(y = 0; y < (altura - edgey); y++){
-			cont = 0;
-			for(fx = 0; fx < largura; fx++){
-				for(fy = 0; fy < altura; fy++){
-					xtotal = x + fx - edgex;
-					ytotal = y + fy - edgey;
-					printf("\n\nxtotal: %d\nytotal: %d\n\n", xtotal, ytotal);
-					valor[cont] = matriz_captcha[xtotal][ytotal];
-					cont++;
-				}
-			}
+	valor = (int *) malloc(9 * sizeof(int));
+	for(x = 1; x < altura - 1; ++x){
+		for(y = 1; y < largura - 1; ++y){
+			valor[0] = matriz_captcha[x - 1][y - 1];
+			valor[1] = matriz_captcha[x - 1][y];
+			valor[2] = matriz_captcha[x - 1][y + 1];
+			valor[3] = matriz_captcha[x][y - 1];
+			valor[4] = matriz_captcha[x][y];
+			valor[5] = matriz_captcha[x][y + 1];
+			valor[6] = matriz_captcha[x + 1][y - 1];
+			valor[7] = matriz_captcha[x + 1][y];
+			valor[8] = matriz_captcha[x + 1][y + 1];
+
 			bubbleSort(valor);
-			matriz_captcha[x][y] = valor[altura * largura / 2];
+			matriz_captcha[x][y] = valor[4];
 		}
 	}
 }
