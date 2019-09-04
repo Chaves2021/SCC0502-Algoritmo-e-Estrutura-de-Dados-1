@@ -4,7 +4,7 @@
 #define SUCCESS 0
 #define ALOCATION_ERROR -1
 
-FILE *createFile();
+FILE *createFile(char *);
 char *alocString();
 int **alocMatrix(int, int);
 void imageSize(FILE *, int *, int *);

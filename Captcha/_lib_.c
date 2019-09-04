@@ -27,14 +27,11 @@ char *alocString(){
 }
 
 //Funcao para ponteiro do tipo file apontar para o arquivo para sua posterior leitura
-FILE *createFile(){
+FILE *createFile(char *arquivo){
 	FILE *file;
-	char *arquivo;
-	arquivo = alocString();
 	if(!arquivo)
 		return (FILE *) ALOCATION_ERROR;
 
-	scanf(" %s", arquivo);
 	file = fopen(arquivo, "r");
 
 	//ATENCAO!!!!
@@ -42,7 +39,6 @@ FILE *createFile(){
 	//IGNORANDO O P2 DO ARQUIVO
 	fscanf(file, "%*c %*d");
 
-	free(arquivo);
 	return file;
 }
 
@@ -67,6 +63,7 @@ int **readImage(FILE *file, int largura, int altura){
 	return matriz_captcha;
 }
 
+//Funcao para execucao de um bubble sort para ordenacao
 void bubbleSort(int *valor){
 	int tamanho, i, j, aux;
 	tamanho = 9;
@@ -81,6 +78,7 @@ void bubbleSort(int *valor){
 	}
 }
 
+//Aplicacao do median filter, alterando diretamente a matriz de captcha ja que o resultado final devem ser apenas numeros
 void medianFilter(int **matriz_captcha, int largura, int altura){
 	int x, y;
 	int *valor;
@@ -101,4 +99,19 @@ void medianFilter(int **matriz_captcha, int largura, int altura){
 			matriz_captcha[x][y] = valor[4];
 		}
 	}
+}
+
+//Funcao para comparacao do resultado do captcha com as mascaras
+int compareNumber(int **matriz_captcha){
+	FILE *file0, *file1, *file2, *file3, *file4, *file5, *file6, *file7, *file8, *file9;
+	(file0) = createFile("./mascaras/0.pgm");
+	(file1) = createFile("./mascaras/1.pgm");
+	(file2) = createFile("./mascaras/2.pgm");
+	(file3) = createFile("./mascaras/3.pgm");
+	(file4) = createFile("./mascaras/4.pgm");
+	(file5) = createFile("./mascaras/5.pgm");
+	(file6) = createFile("./mascaras/6.pgm");
+	(file7) = createFile("./mascaras/7.pgm");
+	(file8) = createFile("./mascaras/8.pgm");
+	(file9) = createFile("./mascaras/9.pgm");
 }
