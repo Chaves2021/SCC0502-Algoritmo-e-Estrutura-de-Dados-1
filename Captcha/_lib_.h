@@ -9,8 +9,8 @@ char *alocString();
 int **alocMatrix(int, int);
 void imageSize(FILE *, int *, int *);
 int **readImage(FILE *, int, int);
-int free(int **, int);
-int numberCompare(int **);
+int freeMatrix(int **, int);
+int compareNumber(int **);
 void medianFilter(int **, int, int);
 
 #endif
