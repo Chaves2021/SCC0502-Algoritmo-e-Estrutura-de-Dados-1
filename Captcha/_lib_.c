@@ -34,16 +34,14 @@ FILE *createFile(char *arquivo){
 
 	file = fopen(arquivo, "r");
 
-	//ATENCAO!!!!
-	//ONDE DEIXAR ISSO??????
-	//IGNORANDO O P2 DO ARQUIVO
+	//Ignorando o P2 do arquivo, ja que so serao tratados arquivos do tipo P2
 	fscanf(file, "%*c %*d");
 
 	return file;
 }
 
 //Funcao para armazenar altura e largura
-//O tom maximo de cinza eh ignorado ja que todos os captchas assumem valor 1 como maximo
+//O tom maximo de cinza eh ignorado ja que eh irrelevante para esse projeto
 void imageSize(FILE *file, int *largura, int *altura){
 	fscanf(file, "%d %d", largura, altura);
 	fscanf(file, "%*d");
@@ -102,16 +100,60 @@ void medianFilter(int **matriz_captcha, int largura, int altura){
 }
 
 //Funcao para comparacao do resultado do captcha com as mascaras
-int compareNumber(int **matriz_captcha){
-	FILE *file0, *file1, *file2, *file3, *file4, *file5, *file6, *file7, *file8, *file9;
-	(file0) = createFile("./mascaras/0.pgm");
-	(file1) = createFile("./mascaras/1.pgm");
-	(file2) = createFile("./mascaras/2.pgm");
-	(file3) = createFile("./mascaras/3.pgm");
-	(file4) = createFile("./mascaras/4.pgm");
-	(file5) = createFile("./mascaras/5.pgm");
-	(file6) = createFile("./mascaras/6.pgm");
-	(file7) = createFile("./mascaras/7.pgm");
-	(file8) = createFile("./mascaras/8.pgm");
-	(file9) = createFile("./mascaras/9.pgm");
+//Apos observar os captchas, foi visto que seus numeros sao espacados de maneira razoavelmente regular
+//Por isso para comparacao, serao analisados partes do captcha, sendo cada uma referente a um numero
+int compareNumber(int **matriz_captcha, int largura_captcha, int altura_captcha){
+
+	FILE **file;
+	file = (FILE **) malloc(10 * sizeof(FILE *));
+	int largura, altura;
+	int x, y;
+	int cont_bits_pretos = 0;
+	int *bits_brancos;
+	bits_brancos = (int *) calloc(10, sizeof(int));
+	int qtd_numeros, cont = 0;
+	int x_ini, y_ini;
+	int **matriz_temp;
+	matriz_temp = alocMatrix(30, 50);
+
+	file[0] = createFile("./mascaras/0.pgm");
+	file[1] = createFile("./mascaras/1.pgm");
+	file[2] = createFile("./mascaras/2.pgm");
+	file[3] = createFile("./mascaras/3.pgm");
+	file[4] = createFile("./mascaras/4.pgm");
+	file[5] = createFile("./mascaras/5.pgm");
+	file[6] = createFile("./mascaras/6.pgm");
+	file[7] = createFile("./mascaras/7.pgm");
+	file[8] = createFile("./mascaras/8.pgm");
+	file[9] = createFile("./mascaras/9.pgm");
+
+	//percorrendo ponteiros para que ja apontem para o primeiro pixel das mascaras
+	for(x = 0; x < 10; x++){
+		imageSize(file[x], &largura, &altura);
+		readImage(file[x], largura, altura);
+	}
+	while(cont < 10){
+		matriz_temp = readImage(file[cont], 30, 50);
+		for(i = 0; i < 30; i++){
+			for(j = 0; j < 50; j++){
+				if(matriz_temp == 1)
+					bits_brancos[cont] += 1;
+			}
+		}
+		cont++;
+	}
+
+	//Definindo quantos numeros terao no captcha
+	//Observando os captchas, a largura total sempre eh divisivel por 46, e o resultado eh a quantidade de numeros no captcha
+	qtd_numeros = largura_captcha / 46;
+	
+	while(cont < qtd_numeros){
+		for(x = 1; x < largura_captcha - 1; x++){
+			for(y = 1; y < altura_captcha - 1; y++){
+				if(matriz_captcha[x][y] == 1)
+					cont_bits_pretos += 1;
+			}
+		}
+		cont++;
+	}
 }
