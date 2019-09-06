@@ -84,13 +84,13 @@ void medianFilter(int **matriz_captcha, int largura, int altura){
 	for(x = 1; x < altura - 1; x++){
 		for(y = 1; y < largura - 1; y++){
 			valor[0] = matriz_captcha[x - 1][y - 1];
-			valor[1] = matriz_captcha[x - 1][y];
-			valor[2] = matriz_captcha[x - 1][y + 1];
-			valor[3] = matriz_captcha[x][y - 1];
+			valor[1] = matriz_captcha[x][y - 1];
+			valor[2] = matriz_captcha[x + 1][y - 1];
+			valor[3] = matriz_captcha[x - 1][y];
 			valor[4] = matriz_captcha[x][y];
-			valor[5] = matriz_captcha[x][y + 1];
-			valor[6] = matriz_captcha[x + 1][y - 1];
-			valor[7] = matriz_captcha[x + 1][y];
+			valor[5] = matriz_captcha[x + 1][y];
+			valor[6] = matriz_captcha[x - 1][y + 1];
+			valor[7] = matriz_captcha[x][y + 1];
 			valor[8] = matriz_captcha[x + 1][y + 1];
 
 			bubbleSort(valor);
@@ -99,16 +99,15 @@ void medianFilter(int **matriz_captcha, int largura, int altura){
 	}
 }
 
-//Funcao para comparacao do resultado do captcha com as mascaras
-//Apos observar os captchas, foi visto que seus numeros sao espacados de maneira razoavelmente regular
-//Por isso para comparacao, serao analisados partes do captcha, sendo cada uma referente a um numero
-int compareNumber(int **matriz_captcha, int largura_captcha, int altura_captcha){
-
+void compareMask(int **matriz_captcha, int x, int y){
 	FILE **file;
 	file = (FILE **) malloc(10 * sizeof(FILE *));
 	int largura, altura;
-	int x;
-	int qtd_numeros, cont = 0;
+	int cont = 0;
+	int **matriz_temp;
+	int i, j, k, l;
+	int *cont_igual;
+	cont_igual = (int *) calloc(10, sizeof(int));
 
 	file[0] = createFile("./mascaras/0.pgm");
 	file[1] = createFile("./mascaras/1.pgm");
@@ -122,9 +121,64 @@ int compareNumber(int **matriz_captcha, int largura_captcha, int altura_captcha)
 	file[9] = createFile("./mascaras/9.pgm");
 
 	//percorrendo ponteiros para que ja apontem para o primeiro pixel das mascaras
-	for(x = 0; x < 10; x++){
-		imageSize(file[x], &largura, &altura);
+	for(i = 0; i < 10; i++){
+		imageSize(file[i], &largura, &altura);
 	}
 
+	while(cont < 10){
+		if(cont == 1){
+			matriz_temp = readImage(file[cont], largura, altura);
+			for(i = 0; i < 50; i++){
+				for(j = 0; j < 20; j++){
+					if(matriz_temp[i][j] == 0)
+						matriz_temp[i][j] = 1;
+					else
+						matriz_temp[i][j] = 0;
+				}
+			}
+		}
+		else
+			matriz_temp = readImage(file[cont], largura, altura);
+		for(i = x, k = 0; i < x + 50; i++, k++){
+			for(j = y, l = 0; j < y + 30; j++, l++){
+				if(matriz_captcha[i][j] == matriz_temp[k][l])
+					cont_igual[cont] += 1;
+			}
+		}
+		cont++;
+	}
+
+	int maior = 0;
+	for(i = 0; i < 10; i++){
+		if(cont_igual[maior] < cont_igual[i])
+			maior = i;
+	}
+	printf("%d", maior);
+}
+
+//Funcao para comparacao do resultado do captcha com as mascaras
+int compareNumber(int **matriz_captcha, int largura_captcha, int altura_captcha){
+
+	int x, y;
+	int cont1 = 0;
+
+	for(y = 1; y < largura_captcha; y++){
+		cont1 = 0;
+		for(x = 0; x < altura_captcha; x++){
+			if(cont1 == 5){
+				compareMask(matriz_captcha, x - 7, y);
+				x = altura_captcha;
+				y += 30;
+				cont1 = 0;
+			}
+			else{ 
+				if(matriz_captcha[x][y] == 1)
+					cont1++;
+				else
+					cont1 = 0;
+			}
+		}
+	}
+	printf("\n");
 	return SUCCESS;
 }
