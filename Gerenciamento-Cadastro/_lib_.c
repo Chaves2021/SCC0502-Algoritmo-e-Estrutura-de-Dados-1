@@ -19,10 +19,10 @@ int add(REGISTER *, int, char *){
 	new->cpf = (char *) malloc(12 * sizeof(char));
 	new->tel = (char *) malloc(21 * sizeof(char));
 
-	scanf(" %s", first_name);
-	scanf(" %s", last_name);
-	scanf(" %s", cpf);
-	scanf(" %s", tel);
+	scanf(" %s", new->first_name);
+	scanf(" %s", new->last_name);
+	scanf(" %s", new->cpf);
+	scanf(" %s", new->tel);
 
 	return SUCCESS;
 }
