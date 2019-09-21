@@ -1,3 +1,9 @@
+//Caio Marcos Chaves Viana      nusp: 11208217
+//
+//Foi escolhido o algoritmo da lista duplamente encadeada pelo fato de eu ter entendi melhor o algoritmo
+//Principalmente a funcao de remover, que estava mais fresca na memoria do que a da lista simplesmente encadeada
+//Mesmo imaginando que a lista simplesmente encadeada tenha uma complexidade menor, e o ponteiro prev so tem uso real na funcao de remover
+
 #ifndef _lib_
 #define _lib_
 
@@ -18,21 +24,25 @@ struct REGISTER{
 	int count;
 };
 
+typedef struct REGISTER REGISTER;
+typedef struct REGISTER_ELEM REGISTER_ELEM;
 #define SUCCESS         0 
 #define INVALID_LIST   -1
 #define REMOVE_ERROR   -2
 #define GET_ERROR      -3
-#define INVALID_POS    -4
-#define ELEM_NOT_FOUND -5
+#define ELEM_NOT_FOUND -4
+#define INVALID_CPF    -5
 
 //Funcao para alocar a lista
 REGISTER *create_register(void);
 //Funcao para alocar um elemento na lista
-int add(REGISTER *, int, char *);
-//Funcao para recuperar um elemento da lista pela posicao
-REGISTER_ELEM *get_register(REGISTER *, int);
-void dump(REGISTER *);
-void remove(REGISTER *, char *);
+int add(REGISTER *);
+//funcao para imprimir elemento da lista
+int search(REGISTER *, char *);
+//Funcao para exibir todos os elementos da lista
+int dump(REGISTER *);
+//Funca para remover elemento da lista
+int remover(REGISTER *, char *);
 void exit();
 
 #endif
