@@ -1,21 +1,34 @@
-#ifndef ARRAY_LIST_H
-#define ARRAY_LIST_H
+#ifndef array_List
+#define array_List
 
-#include <item.h>
+typedef struct ITEM{
+	void *item;
+	int chave;
+}ITEM;
 
-typedef struct ArrayList ArrayList
+typedef struct NO{
+	ITEM **elemento;//lista interna void
+	int fimVet;//tamanho ocupado na lista
+	int tamanho;//tamanho da lista interna
+	int tamMax;//tamanho maximo da lista interna
+	struct NO *proximo;//proximo elemento da lista
+}NO;
+
+typedef struct ArrayList{
+	NO *inicio;
+}ArrayList;
 
 //Cria a ArrayList e aloca toda a memoria necessaria
 ArrayList *new_arrayList();
 
 //Adiciona elemento ao arraylist
-int add_arrayList(ArrayList *arrayList, ITEM *element);
+int add_arrayList(ArrayList *arrayList, ITEM *elemento);
 
 //Verifica no ArrayList se existe um elemento com a chave informada
-int contains_arrayList(ArrayList *arrayList, int pos);
+int contains_arrayList(ArrayList *arrayList, int chave);
 
 //Recupera um item na posicao informada
-int *get_arrayList(ArrayList *arrayList, int chave);
+ITEM *get_Item(ArrayList *arrayList, int pos);
 
 //Retorna qual a posicao do primeiro elemento com a chave informada
 int indexOf_arrayList(ArrayList *arrayList, int chave);
