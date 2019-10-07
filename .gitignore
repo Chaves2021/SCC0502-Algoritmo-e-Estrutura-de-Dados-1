@@ -1,2 +1,5 @@
 # Não adicionar qualquer PDF #
 *.pdf
+
+#Não adicionar arquivos compactados
+*.zip
