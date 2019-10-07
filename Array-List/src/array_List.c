@@ -23,9 +23,12 @@ int insercao(NO *vetor, ITEM *elemento, int indiceDireito){
 
 }
 
-int add_arrayList(ArrayList *arrayList, ITEM *elemento){
+int add_arrayList(ArrayList *arrayList, int chave, void *elem){
 	if(!arrayList) return INVALID_LIST;
 	int flag = 0;
+	ITEM *elemento = (ITEM *) calloc(1, sizeof(ITEM));
+	elemento->chave = chave;
+	elemento->item = elem;
 	int i;
 	int tam = arrayList->inicio->tamanho;
 	NO *aux = arrayList->inicio;

@@ -11,26 +11,14 @@ int main(void){
 	int e =5;
 
 	ArrayList *my = new_arrayList();
-	ITEM *elemento = (ITEM *) calloc(1,sizeof(ITEM));
 
-	elemento->item = (void *) &a;
-	elemento->chave = 2;
-	add_arrayList(my, elemento);
+	add_arrayList(my, 2, (void *) &a);
 	
-	elemento = (ITEM *) calloc(1,sizeof(ITEM));
-	elemento->item = (void *) &c;
-	elemento->chave = 10;
-	add_arrayList(my, elemento);
+	add_arrayList(my, 10, (void *) &c);
 
-	elemento = (ITEM *) calloc(1,sizeof(ITEM));
-	elemento->item = (void *) &d;
-	elemento->chave = 7;
-	add_arrayList(my, elemento);
+	add_arrayList(my, 7, (void *) &d);
 	
-	elemento = (ITEM *) calloc(1,sizeof(ITEM));
-	elemento->item = (void *) &e;
-	elemento->chave = 2;
-	add_arrayList(my, elemento);
+	add_arrayList(my, 2, (void *) &e);
 
 	print_arrayList(my);
 

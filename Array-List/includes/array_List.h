@@ -22,7 +22,7 @@ typedef struct ArrayList{
 ArrayList *new_arrayList();
 
 //Adiciona elemento ao arraylist
-int add_arrayList(ArrayList *arrayList, ITEM *elemento);
+int add_arrayList(ArrayList *arrayList, int chave, void *elem);
 
 //Verifica no ArrayList se existe um elemento com a chave informada
 int contains_arrayList(ArrayList *arrayList, int chave);
