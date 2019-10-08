@@ -22,7 +22,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	if(contains_arrayList(my, 7))
+	if(contains_arrayList(my, 10))
 		printf("\n**ACHOU**\n");
 	else
 		printf("\n**NÃO ACHOU**\n");

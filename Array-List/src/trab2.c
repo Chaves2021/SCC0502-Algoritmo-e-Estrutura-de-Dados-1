@@ -21,10 +21,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	if(get_Item(my, 0) != NULL){
-		int *item = get_Item(my,0)->item;
-		printf("Chave: %d\nValor: %d\n\n",get_Item(my,0)->chave,*item); 
-	}
+	printf("indice: %d\n",indexOf_arrayList(my,2));
 
 	return 0;
 }
