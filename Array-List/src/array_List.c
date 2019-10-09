@@ -140,8 +140,6 @@ int isEmpty_arrayList(ArrayList *arrayList){
 	return 1;
 }
 
-//TODO
-//O ERRO ESTA NO FREE QUE ESTA COMENTADO
 int remove_arrayList(ArrayList *arrayList, int pos){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
@@ -188,6 +186,7 @@ int set_arrayList(ArrayList *arrayList, int pos, ITEM *element){
 }
 
 int size_arrayList(ArrayList *arrayList){
+	printf("To be implemented");
 	return 1;
 }
 

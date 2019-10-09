@@ -45,7 +45,7 @@ int isEmpty_arrayList(ArrayList *arrayList);
 int remove_arrayList(ArrayList *arrayList, int pos);
 
 //Modifica um elemento do ArrayList
-int set_arrayList(ArrayList *arrayList, int pos, ITEM *element);
+int set_arrayList(ArrayList *arrayList, int pos, void *item, int chave);
 
 //Retorna o tamanho total do ArrayList
 int size_arrayList(ArrayList *arrayList);
