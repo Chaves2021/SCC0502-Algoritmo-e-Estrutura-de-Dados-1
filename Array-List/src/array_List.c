@@ -38,11 +38,9 @@ int add_arrayList(ArrayList *arrayList, int chave, void *elem){
 			if(aux->proximo != NULL){
 				aux = aux->proximo;
 				tam = aux->tamanho;
-				indice += i;
 				i = 0;
 			}
 			else if(i == aux->tamMax){
-				elemento->indice = i + 1;
 				NO *new = (NO *) calloc(1,sizeof(NO));
 				new->tamMax = tam * 2;
 				new->elemento = (ITEM **) calloc(new->tamMax, sizeof(ITEM));
@@ -51,7 +49,6 @@ int add_arrayList(ArrayList *arrayList, int chave, void *elem){
 				return SUCCESS;
 			}
 			else{
-				elemento->indice = tam;
 				insercao(aux, elemento, tam - 1);
 				aux->tamanho++;
 				return SUCCESS;
@@ -121,25 +118,21 @@ ITEM *get_Item(ArrayList *arrayList, int pos){
 int indexOf_arrayList(ArrayList *arrayList, int chave){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
-	int tamanho = no->tamanho - 1;
-	int meio = tamanho / 2;
+	int i;
 	int indice = 0;
-	while(1){
-		if(meio == tamanho || meio == 0){
-			if(no->elemento[meio]->chave == chave) return 1;
-			else if(no->proximo != NULL){
-			       	no = no->proximo;
-				tamanho = no->tamanho - 1;
-				meio = tamanho / 2;
-			}
-			else return 0;
+	for(i = 0, indice; i < no->tamanho; i++, indice++){
+		if(i >= no->tamanho && no->proximo){
+			i = 0;
+			no = no->proximo;
 		}
-		else{
-			if(no->elemento[meio]->chave == chave) return 1;
-			else if(chave > no->elemento[meio]->chave) meio = ((meio + 1) + tamanho) / 2;
-			else if(chave < no->elemento[meio]->chave) meio = (meio - 1) / 2;
+		else if(i >= no->tamanho){
+			return INVALID_KEY;
 		}
+		else
+			if(no->elemento[i]->chave == chave)
+				return indice;
 	}
+	
 }
 
 int isEmpty_arrayList(ArrayList *arrayList){

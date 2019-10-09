@@ -21,7 +21,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	printf("indice: %d\n",indexOf_arrayList(my,2));
+	printf("indice: %d\n",indexOf_arrayList(my,10));
 
 	return 0;
 }

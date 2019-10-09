@@ -22,7 +22,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	int pos = 1;
+	int pos = 0;
 	if(get_Item(my, pos) != NULL){
 		int *item = get_Item(my,pos)->item;
 		printf("Chave: %d\nValor: %d\n\n",get_Item(my,pos)->chave,*item); 
