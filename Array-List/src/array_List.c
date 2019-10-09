@@ -142,7 +142,6 @@ int isEmpty_arrayList(ArrayList *arrayList){
 
 //TODO
 //O ERRO ESTA NO FREE QUE ESTA COMENTADO
-//EU SEI QUE VOCE CONSEGUE IRMAO
 int remove_arrayList(ArrayList *arrayList, int pos){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
@@ -167,9 +166,11 @@ int remove_arrayList(ArrayList *arrayList, int pos){
 				free(no);
 			}
 			else{
-				for(i = pos; i < no->tamanho; i++)
-					no->elemento[i] = no->elemento[i + 1];
-				//free(no->elemento[i]);
+				for(i = pos; i < no->tamanho; i++){
+					no->elemento[i]->item = no->elemento[i + 1]->item;
+					no->elemento[i]->chave = no->elemento[i + 1]->chave;
+				}
+				if(pos != no->tamanho) free(no->elemento[i]);
 
 			}
 			return SUCCESS;

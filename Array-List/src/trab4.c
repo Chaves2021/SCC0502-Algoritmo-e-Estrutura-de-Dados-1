@@ -22,7 +22,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	remove_arrayList(my, 1);
+	remove_arrayList(my, 2);
 
 	print_arrayList(my);
 	return 0;
