@@ -11,7 +11,6 @@ int main(void){
 	int e =5;
 
 	ArrayList *my = new_arrayList();
-
 	add_arrayList(my, 2, (void *) &a);
 	
 	add_arrayList(my, 10, (void *) &c);
@@ -22,11 +21,7 @@ int main(void){
 
 	print_arrayList(my);
 
-	int pos = 3;
-	if(get_Item(my, pos) != NULL){
-		int *item = get_Item(my,pos)->item;
-		printf("Chave: %d\nValor: %d\n\n",get_Item(my,pos)->chave,*item); 
-	}
+	printf("indice: %d\n",indexOf_arrayList(my,10));
 
 	return 0;
 }

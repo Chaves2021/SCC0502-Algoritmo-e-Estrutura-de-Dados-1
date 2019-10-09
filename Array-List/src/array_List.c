@@ -124,14 +124,14 @@ int indexOf_arrayList(ArrayList *arrayList, int chave){
 		if(i >= no->tamanho && no->proximo){
 			i = 0;
 			no = no->proximo;
-		}
-		else if(i >= no->tamanho){
-			return INVALID_KEY;
+			printf("aqui 0");
 		}
 		else
 			if(no->elemento[i]->chave == chave)
 				return indice;
+			
 	}
+	return INVALID_KEY;
 	
 }
 
