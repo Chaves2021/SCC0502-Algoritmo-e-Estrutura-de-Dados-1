@@ -140,22 +140,42 @@ int isEmpty_arrayList(ArrayList *arrayList){
 	return 1;
 }
 
+//TODO
+//O ERRO ESTA NO FREE QUE ESTA COMENTADO
+//EU SEI QUE VOCE CONSEGUE IRMAO
 int remove_arrayList(ArrayList *arrayList, int pos){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
+	NO *follow;
 	int i, cont = 0;
 	int flag = 0;
 	while(1){	
-		if(pos >= tamanho && no->proximo != NULL){
+		if(pos >= no->tamanho && no->proximo != NULL){
 			cont = no->tamanho - 1;
+			follow = no;
 			no = no->proximo;
 		}
-		//TODO
-		else if(pos < tamanho){
+		else if(pos < no->tamanho){
 			free(no->elemento[pos - cont]);
+			no->tamanho--;
+			if(!follow && !no->tamanho){ 
+				arrayList->inicio = no->proximo; 
+				free(no);
+			}
+			else if(!no->tamanho){
+				follow->proximo = no->proximo;
+				free(no);
+			}
+			else{
+				for(i = pos; i < no->tamanho; i++)
+					no->elemento[i] = no->elemento[i + 1];
+				//free(no->elemento[i]);
+
+			}
+			return SUCCESS;
 		}
 		else{
-			return NULL;
+			return INVALID_KEY;
 		}
 	}
 	return 1;
@@ -170,10 +190,12 @@ int size_arrayList(ArrayList *arrayList){
 	return 1;
 }
 
+/*
 ArrayList *subArray_arrayList(ArrayList *arrayList, int beginIndex,int endIndex){
 	printf("To be implemented...");
 	return 1;
 }
+*/
 
 int destruct_arrayList(ArrayList **arrayList){
 	printf("To be implemented");

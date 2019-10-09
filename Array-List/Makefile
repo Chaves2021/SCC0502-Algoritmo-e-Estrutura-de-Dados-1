@@ -1,7 +1,7 @@
 CC=gcc
-BINARY=./bin/trab1
+BINARY=./bin/trab4
 INCLUDES=./includes/
-SRC=./src/array_List.c ./src/trab1.c
+SRC=./src/array_List.c ./src/trab4.c
 OPTIONS=-Wall -g
 LIBS=
 
