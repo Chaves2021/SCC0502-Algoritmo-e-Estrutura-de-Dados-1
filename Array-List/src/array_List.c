@@ -98,15 +98,15 @@ int contains_arrayList(ArrayList *arrayList, int chave){
 
 ITEM *get_Item(ArrayList *arrayList, int pos){
 	NO *no = arrayList->inicio;
-	int tamanho = no->tamanho;
 	int i, cont = 0;
 	int flag = 0;
 	while(1){	
-		if(pos >= tamanho && no->proximo != NULL){
-			cont = tamanho;
+		if(pos >= no->tamanho && no->proximo != NULL){
+			//o tamanho do no comeca em 1, mas a pos comeca em 0, por isso a decrementacao
+			cont = no->tamanho - 1;
 			no = no->proximo;
 		}
-		else if(pos < tamanho){
+		else if(pos < no->tamanho){
 			return no->elemento[pos - cont];
 		}
 		else{
@@ -124,7 +124,6 @@ int indexOf_arrayList(ArrayList *arrayList, int chave){
 		if(i >= no->tamanho && no->proximo){
 			i = 0;
 			no = no->proximo;
-			printf("aqui 0");
 		}
 		else
 			if(no->elemento[i]->chave == chave)
@@ -136,12 +135,29 @@ int indexOf_arrayList(ArrayList *arrayList, int chave){
 }
 
 int isEmpty_arrayList(ArrayList *arrayList){
-	printf("To be implemented");
+	if(!arrayList) return INVALID_LIST;
+	if(arrayList->inicio->tamanho) return 0;
 	return 1;
 }
 
 int remove_arrayList(ArrayList *arrayList, int pos){
-	printf("To be implemented");
+	if(!arrayList) return INVALID_LIST;
+	NO *no = arrayList->inicio;
+	int i, cont = 0;
+	int flag = 0;
+	while(1){	
+		if(pos >= tamanho && no->proximo != NULL){
+			cont = no->tamanho - 1;
+			no = no->proximo;
+		}
+		//TODO
+		else if(pos < tamanho){
+			free(no->elemento[pos - cont]);
+		}
+		else{
+			return NULL;
+		}
+	}
 	return 1;
 }
 
@@ -151,13 +167,12 @@ int set_arrayList(ArrayList *arrayList, int pos, ITEM *element){
 }
 
 int size_arrayList(ArrayList *arrayList){
-	printf("To be implemented");
 	return 1;
 }
 
-ArrayList *subArray_arrayList(ArrayList *arrayList, int beginIndex, int endIndex){
-	printf("To be implemented");
-	return (ArrayList *)1;
+ArrayList *subArray_arrayList(ArrayList *arrayList, int beginIndex,int endIndex){
+	printf("To be implemented...");
+	return 1;
 }
 
 int destruct_arrayList(ArrayList **arrayList){

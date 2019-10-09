@@ -1,3 +1,8 @@
+//A funcao indexOf, nao consegui implementar a busca binaria, pois assim nao teria como saber qual seria a primeira ocorrencia da chave
+//
+//A funcao remove_arrayList tambem precisei percorrer sequencialmente o vetor para pegar seu elemento anterior, e assim tambem nao 
+//implemente a busca binaria
+
 #ifndef array_List
 #define array_List
 
@@ -34,7 +39,7 @@ ITEM *get_Item(ArrayList *arrayList, int pos);
 int indexOf_arrayList(ArrayList *arrayList, int chave);
 
 //Verifica se o ArrayList esta vazio
-int isEmpty(ArrayList *arrayList);
+int isEmpty_arrayList(ArrayList *arrayList);
 
 //Remove um elemento da lista
 int remove_arrayList(ArrayList *arrayList, int pos);
