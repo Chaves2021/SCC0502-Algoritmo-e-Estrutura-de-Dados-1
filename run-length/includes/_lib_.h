@@ -1,16 +1,19 @@
 #ifndef _lib_
 #define _lib_
+struct Arquivo{
+	char *numero_magico;
+	int largura;
+	int altura;
+	int valor_max;
+	int **matriz_p2;
+	char **matriz_p8;
+}
+typedef struct Arquivo Arquivo;
 
-#define SUCCESS 0
-#define ALOCATION_ERROR -1
-
-FILE *createFile(char *);
-char *alocString();
-int **alocMatrix(int, int);
-void imageSize(FILE *, int *, int *);
-int **readImage(FILE *, int, int);
-int freeMatrix(int **, int);
-int compareNumber(int **, int, int);
-void medianFilter(int **, int, int);
+int ler_input();
+int **aloca_arq(int, int);
+int p2_to_p8();
+int p8_to_p2();
+int free_matriz();
 
 #endif

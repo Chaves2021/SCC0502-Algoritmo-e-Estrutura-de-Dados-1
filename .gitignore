@@ -6,3 +6,4 @@ codes/
 #Não adicionar arquivos compactados
 *.zip
 *.7z
+*.tar.gz
