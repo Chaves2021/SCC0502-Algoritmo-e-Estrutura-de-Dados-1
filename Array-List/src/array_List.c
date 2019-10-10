@@ -30,7 +30,6 @@ int add_arrayList(ArrayList *arrayList, int chave, void *elem){
 	elemento->chave = chave;
 	elemento->item = elem;
 	int i;
-	int indice = 0;
 	int tam = arrayList->inicio->tamanho;
 	NO *aux = arrayList->inicio;
 	for(i = 0; !flag; i++){
@@ -99,8 +98,7 @@ int contains_arrayList(ArrayList *arrayList, int chave){
 ITEM *get_Item(ArrayList *arrayList, int pos){
 	if(!arrayList) return (ITEM *) INVALID_LIST;
 	NO *no = arrayList->inicio;
-	int i, cont = 0;
-	int flag = 0;
+	int cont = 0;
 	while(1){	
 		if(pos >= no->tamanho && no->proximo != NULL){
 			//o tamanho do no comeca em 1, mas a pos comeca em 0, por isso a decrementacao
@@ -177,7 +175,7 @@ int remove_arrayList(ArrayList *arrayList, int pos){
 			return INVALID_KEY;
 		}
 	}
-	return 1;
+	return SUCCESS;
 }
 
 void sort(NO *no, int tam){
@@ -197,11 +195,10 @@ void sort(NO *no, int tam){
 }
 
 //Foi implementado o bubble sort pois os itens estao praticamente ordenados e estao proximos
-int set_arrayList(ArrayList *arrayList, int pos, void *item, int chave){
+int set_arrayList(ArrayList *arrayList, int pos, int chave, void *item){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
-	int i, cont = 0;
-	int flag = 0;
+	int cont = 0;
 	while(1){	
 		if(pos >= no->tamanho && no->proximo != NULL){
 			cont = no->tamanho - 1;
@@ -217,7 +214,7 @@ int set_arrayList(ArrayList *arrayList, int pos, void *item, int chave){
 			return INVALID_POS;
 		}
 	}
-	return 1;
+	return SUCCESS;
 }
 
 int size_arrayList(ArrayList *arrayList){
@@ -227,14 +224,29 @@ int size_arrayList(ArrayList *arrayList){
 		size += no->tamanho;
 		no = no->proximo;
 	}
-	printf("%d\n", size);
-	return 1;
+	return size;
 }
 
-//TODO
 ArrayList *subArray_arrayList(ArrayList *arrayList, int beginIndex,int endIndex){
-	printf("To be implemented...");
-	return 1;
+	if(!arrayList) return (ArrayList *) INVALID_LIST;
+	int i;
+	NO *no = arrayList->inicio;
+	ArrayList *new = new_arrayList();
+	while(1){	
+		if(beginIndex >= no->tamanho && no->proximo != NULL){
+			no = no->proximo;
+		}
+		else if(beginIndex < no->tamanho){
+			for(i = beginIndex; i < endIndex; i++){
+				add_arrayList(new, get_Item(arrayList,i)->chave, get_Item(arrayList,i)->item);
+			}
+			print_arrayList(new);
+			return new;
+		}
+		else{
+			return (ArrayList *) INVALID_POS;
+		}
+	}
 }
 
 int destruct_arrayList(ArrayList **arrayList){

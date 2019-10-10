@@ -1,6 +1,7 @@
 #include <array_List.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 int main(void){
@@ -19,13 +20,7 @@ int main(void){
 	
 	add_arrayList(my, 2, (void *) &e);
 
-	print_arrayList(my);
-
-	int pos = 3;
-	if(get_Item(my, pos) != NULL){
-		int *item = get_Item(my,pos)->item;
-		printf("Chave: %d\nValor: %d\n\n",get_Item(my,pos)->chave,*item); 
-	}
+	subArray_arrayList(my, 1, 4);
 
 	return 0;
 }
