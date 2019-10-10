@@ -12,8 +12,8 @@ typedef struct Arquivo Arquivo;
 
 int ler_input();
 int **aloca_arq(int, int);
-int p2_to_p8();
-int p8_to_p2();
+int p2_to_p8(Arquivo *);
+int p8_to_p2(Arquivo *);
 int free_matriz();
 
 #endif

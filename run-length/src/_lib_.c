@@ -8,23 +8,43 @@ Arquivo *aloca_arq(char *numero_magico, int valor_max,  int largura, int altura)
 	arq = (Arquivo *) malloc(1 * sizeof(Arquivo));
 	int **matriz;
 	int i;
-	if(strcmp(numero_magico, "p2")){
+	if(strcmp(numero_magico, "P2")){
 		matriz = (int **) malloc(altura * sizeof(int *));
 		for(i = 0; i < altura; i++){
 			matriz[i] = (int *) malloc(largura * sizeof(int));
 		}
 		arq->matriz_p2 = matriz;
 	}
-	else if(strcmp(numero_magico, "p8")){
-		matriz = (int **) malloc(altura * sizeof(int *));
+	else if(strcmp(numero_magico, "P8")){
+		matriz = (char **) malloc(altura * sizeof(char *));
 		for(i = 0; i < altura; i++){
-			matriz[i] = (int *) malloc(largura * sizeof(int));
+			matriz[i] = (char *) malloc(largura * 3 * sizeof(char));
 		}
 		arq->matriz_p8 = matriz;
 	}
 	arq->altura = altura;
 	arq->largura = largura;
-	arq->matriz_p2 = matriz_p2;
+}
+
+int p2_to_p8(){
+
+
+}
+
+//TODO
+//Implementar strtok para separar os numeros
+int p8_to_p2(Arquivo *arq){
+	char *aux;
+	aux = (char *) calloc(4, sizeof(char));
+	for(i = 0; i < arq->altura; i++){
+		scanf(" %s", arq->matriz_p8[i]);
+	}
+	for(i = 0; i < arq->altura; i++){
+		for(j = 0; j < arq->largura; j++){
+		}
+	}
+
+
 }
 
 int ler_input(Arquivo *arq){
@@ -35,17 +55,12 @@ int ler_input(Arquivo *arq){
 	scanf("%d %d", &largura, &altura);
 	scanf("%d", valor_max);
 	aloca_arq(numero_magico, valor_max, largura, altura);
-
-}
-
-int p2_to_p8(){
-
-
-}
-
-int p8_to_p2(){
-
-
+	if(stcmp(numero_magico == "P8")){
+		p8_to_p2(arq);
+	}
+	else if(stcmp(numero_magico == "P2")){
+		p2_to_p8(arq);
+	}
 
 }
 
