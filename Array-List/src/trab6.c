@@ -20,11 +20,7 @@ int main(void){
 	
 	add_arrayList(my, 2, (void *) &e);
 
-	print_arrayList(my);
+	size_arrayList(my);
 
-	int f = 45;   
-	set_arrayList(my, 0, (void *) &f, 99);
-
-	print_arrayList(my);
 	return 0;
 }

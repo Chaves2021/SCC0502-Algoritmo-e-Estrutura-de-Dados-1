@@ -81,7 +81,7 @@ int contains_arrayList(ArrayList *arrayList, int chave){
 		if(meio == tamanho || meio == 0){
 			if(no->elemento[meio]->chave == chave) return 1;
 			else if(no->proximo != NULL){
-			       	no = no->proximo;
+				no = no->proximo;
 				tamanho = no->tamanho - 1;
 				meio = tamanho / 2;
 			}
@@ -97,6 +97,7 @@ int contains_arrayList(ArrayList *arrayList, int chave){
 }
 
 ITEM *get_Item(ArrayList *arrayList, int pos){
+	if(!arrayList) return (ITEM *) INVALID_LIST;
 	NO *no = arrayList->inicio;
 	int i, cont = 0;
 	int flag = 0;
@@ -110,7 +111,7 @@ ITEM *get_Item(ArrayList *arrayList, int pos){
 			return no->elemento[pos - cont];
 		}
 		else{
-			return NULL;
+			return (ITEM *) INVALID_POS;
 		}
 	}
 }
@@ -145,7 +146,6 @@ int remove_arrayList(ArrayList *arrayList, int pos){
 	NO *no = arrayList->inicio;
 	NO *follow;
 	int i, cont = 0;
-	int flag = 0;
 	while(1){	
 		if(pos >= no->tamanho && no->proximo != NULL){
 			cont = no->tamanho - 1;
@@ -180,22 +180,62 @@ int remove_arrayList(ArrayList *arrayList, int pos){
 	return 1;
 }
 
-int set_arrayList(ArrayList *arrayList, int pos, ITEM *element){
-	printf("To be implemented");
+void sort(NO *no, int tam){
+	int troca=1;
+	int i, j;
+	ITEM *aux;
+	for (i=0; (i<tam-1) && troca; i++) {
+		troca=0;
+		for (j=0; j<tam-i -1; j++)
+			if (no->elemento[j]->chave > no->elemento[j+1]->chave) {
+				troca=1;
+				aux=no->elemento[j];
+				no->elemento[j]=no->elemento[j+1];
+				no->elemento[j+1]=aux;
+			}
+	}
+}
+
+//Foi implementado o bubble sort pois os itens estao praticamente ordenados e estao proximos
+int set_arrayList(ArrayList *arrayList, int pos, void *item, int chave){
+	if(!arrayList) return INVALID_LIST;
+	NO *no = arrayList->inicio;
+	int i, cont = 0;
+	int flag = 0;
+	while(1){	
+		if(pos >= no->tamanho && no->proximo != NULL){
+			cont = no->tamanho - 1;
+			no = no->proximo;
+		}
+		else if(pos < no->tamanho){
+			no->elemento[pos - cont]->item = item;
+			no->elemento[pos - cont]->chave = chave;
+			sort(no, no->tamanho);
+			return SUCCESS;
+		}
+		else{
+			return INVALID_POS;
+		}
+	}
 	return 1;
 }
 
 int size_arrayList(ArrayList *arrayList){
-	printf("To be implemented");
+	NO *no = arrayList->inicio;
+	int size = 0;
+	while(no){
+		size += no->tamanho;
+		no = no->proximo;
+	}
+	printf("%d\n", size);
 	return 1;
 }
 
-/*
+//TODO
 ArrayList *subArray_arrayList(ArrayList *arrayList, int beginIndex,int endIndex){
 	printf("To be implemented...");
 	return 1;
 }
-*/
 
 int destruct_arrayList(ArrayList **arrayList){
 	printf("To be implemented");
