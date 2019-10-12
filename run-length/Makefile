@@ -3,6 +3,7 @@ BINARY=./bin/trab
 INCLUDES=./includes/
 SRC=./src/_lib_.c ./src/trab.c
 OPTIONS=-Wall -g
+TEST=casos/3.in
 LIBS=
 
 all:
