@@ -37,7 +37,8 @@ int main(void){
 		}
 		else if(strcmp("indice", comando) == 0){
 			scanf("%d", &chave);
-			printf("%d\n", indexOf_arrayList(my, chave));
+			if(indexOf_arrayList(my, chave) > 0)
+				printf("%d\n", indexOf_arrayList(my, chave));
 		}
 		else if(strcmp("vazia", comando) == 0){
 			printf("%d\n", isEmpty_arrayList(my));
@@ -54,6 +55,7 @@ int main(void){
 		scanf(" %s", comando);
 	}while(strcmp("sair", comando) != 0);
 
+	destruct_arrayList(&my);
 
 	return 0;
 }

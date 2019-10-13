@@ -8,7 +8,7 @@ TEST=casos/1.in
 all:
 	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC)
 run:
-	@$(BINARY) < teste.in
+	@$(BINARY)
 debug:
 	@$(CC) $(OPTIONS) $(SRC) -I$(INCLUDES) -o $(BINARY)
-	@valgrind --leak-check=yes $(BINARY)
+	@valgrind --leak-check=yes $(BINARY) < $(TEST)
