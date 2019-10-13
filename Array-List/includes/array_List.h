@@ -7,7 +7,7 @@
 #define array_List
 
 typedef struct ITEM{
-	void *item;
+	int item;
 	int chave;
 }ITEM;
 
@@ -27,7 +27,7 @@ typedef struct ArrayList{
 ArrayList *new_arrayList();
 
 //Adiciona elemento ao arraylist
-int add_arrayList(ArrayList *arrayList, int chave, void *elem);
+int add_arrayList(ArrayList *arrayList, int chave, int elem);
 
 //Verifica no ArrayList se existe um elemento com a chave informada
 int contains_arrayList(ArrayList *arrayList, int chave);
@@ -45,7 +45,7 @@ int isEmpty_arrayList(ArrayList *arrayList);
 int remove_arrayList(ArrayList *arrayList, int pos);
 
 //Modifica um elemento do ArrayList
-int set_arrayList(ArrayList *arrayList, int pos, int chave, void *item);
+int set_arrayList(ArrayList *arrayList, int pos, int chave, int item);
 
 //Retorna o tamanho total do ArrayList
 int size_arrayList(ArrayList *arrayList);

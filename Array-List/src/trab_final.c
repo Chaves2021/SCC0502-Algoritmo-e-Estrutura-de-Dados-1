@@ -10,15 +10,14 @@ int main(void){
 	int beginIndex, endIndex;
 	int chave;
 	int item;
-	int *aux;
 	ArrayList *my = new_arrayList();
 	do{
 		if(strcmp("tamanho", comando) == 0)
 			printf("%d\n",size_arrayList(my));
 		else if(strcmp("add",comando) == 0){
-			scanf("%d", chave);
+			scanf("%d", &chave);
 			scanf("%d", &item);
-			add_arrayList(my, chave, (void *) &item);
+			add_arrayList(my, chave, item);
 		}
 		else if(strcmp("sub", comando) == 0){
 			scanf("%d %d", &beginIndex, &endIndex);
@@ -27,7 +26,7 @@ int main(void){
 		else if(strcmp("set", comando) == 0){
 			scanf("%d %d", &pos, &chave);
 			scanf("%d", &item);
-			set_arrayList(my, pos, chave, (void *) &item);
+			set_arrayList(my, pos, chave, item);
 		}	
 		else if(strcmp("print", comando) == 0){
 			print_arrayList(my);
@@ -47,13 +46,13 @@ int main(void){
 			scanf("%d", &pos);
 			remove_arrayList(my, pos);
 		}
-		else if("get", comando){
+		else if(strcmp("get", comando) == 0){
 			scanf("%d", &pos);
-			aux = (int *) get_Item(my, pos)->item;
-			printf("%d/%d\n", get_Item(my, pos)->chave, *aux);
+			printf("%d/%d\n", get_Item(my, pos)->chave, get_Item(my, pos)->item);
 
 		}
-	}while(strcmp("sair", comando) == 0);
+		scanf(" %s", comando);
+	}while(strcmp("sair", comando) != 0);
 
 
 	return 0;

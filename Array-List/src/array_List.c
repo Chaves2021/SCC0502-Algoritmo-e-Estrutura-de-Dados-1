@@ -23,32 +23,31 @@ int insercao(NO *vetor, ITEM *elemento, int indiceDireito){
 
 }
 
-int add_arrayList(ArrayList *arrayList, int chave, void *elem){
+int add_arrayList(ArrayList *arrayList, int chave, int elem){
 	if(!arrayList) return INVALID_LIST;
 	int flag = 0;
 	ITEM *elemento = (ITEM *) calloc(1, sizeof(ITEM));
 	elemento->chave = chave;
 	elemento->item = elem;
 	int i;
-	int tam = arrayList->inicio->tamanho;
 	NO *aux = arrayList->inicio;
 	for(i = 0; !flag; i++){
-		if(i == tam){
+		if(i == aux->tamanho){
 			if(aux->proximo != NULL){
 				aux = aux->proximo;
-				tam = aux->tamanho;
-				i = 0;
+				i = -1;
 			}
 			else if(i == aux->tamMax){
 				NO *new = (NO *) calloc(1,sizeof(NO));
-				new->tamMax = tam * 2;
+				new->tamMax = aux->tamanho * 2;
 				new->elemento = (ITEM **) calloc(new->tamMax, sizeof(ITEM));
 				new->elemento[0] = elemento;
 				aux->proximo = new;
+				printf("entrei aqui\n\n");
 				return SUCCESS;
 			}
 			else{
-				insercao(aux, elemento, tam - 1);
+				insercao(aux, elemento, aux->tamanho - 1);
 				aux->tamanho++;
 				return SUCCESS;
 			}
@@ -119,7 +118,7 @@ int indexOf_arrayList(ArrayList *arrayList, int chave){
 	NO *no = arrayList->inicio;
 	int i;
 	int indice = 0;
-	for(i = 0, indice; i < no->tamanho; i++, indice++){
+	for(i = 0; i < no->tamanho; i++, indice++){
 		if(i >= no->tamanho && no->proximo){
 			i = 0;
 			no = no->proximo;
@@ -195,7 +194,7 @@ void sort(NO *no, int tam){
 }
 
 //Foi implementado o bubble sort pois os itens estao praticamente ordenados e estao proximos
-int set_arrayList(ArrayList *arrayList, int pos, int chave, void *item){
+int set_arrayList(ArrayList *arrayList, int pos, int chave, int item){
 	if(!arrayList) return INVALID_LIST;
 	NO *no = arrayList->inicio;
 	int cont = 0;
@@ -256,21 +255,22 @@ int destruct_arrayList(ArrayList **arrayList){
 
 void print_arrayList(ArrayList *arrayList){
 	NO *no = arrayList->inicio;
-	int tamanho = no->tamanho;
 	int i;
 	int flag = 0;
-	int *item;
-	for(i = 0; !flag; i++){	
-		if(i == tamanho && no->proximo != NULL){
+	int cont = 0;
+	for(i = 0; !flag; i++, cont++){	
+		if(cont == no->tamanho && no->proximo != NULL){
 			no = no->proximo;
-			i = 0;
+			cont = 0;
+			printf("\n\n");
 		}
-		else if(i == tamanho && no->proximo == NULL){
+		else if(cont == no->tamanho && no->proximo == NULL){
 			flag = 1;
 		}
-		if(i != tamanho){
-			item = (int *) no->elemento[i]->item;
-			printf("Elem[%d]\nChave: %d\nValor: %d\n\n", i, no->elemento[i]->chave, *item);
+		if(cont < no->tamanho){
+			printf("%d: ", i);
+			printf("%d/%d\n", no->elemento[cont]->chave, no->elemento[cont]->item);
 		}
 	}
+	printf("\n\n");
 }
