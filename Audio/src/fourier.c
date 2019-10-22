@@ -48,20 +48,27 @@ void troca(double *vetor, int pos0, int pos1){
 	vetor[pos1] = aux;
 }
 
-double *reduz_coeficiente(complex double *coeficiente, int *places, int N){
+double *ordena_coeficiente(complex double *coeficiente, int *pos, int N){
 	int i, j, aux;
-	double *mags = malloc(sizeof(double)*(N+1));
+	double *mag = malloc(sizeof(double)*(N+1));
 	for(i = 0; i <= N; i++)
-		mags[i] = cabs(inducts[i]);
+		mag[i] = cabs(coeficiente[i]);
 	for(i = 0; i <= N; i++){
 		for(j = 1; j <= N-i; j++){
-			if(mags[j] > mags[j-1]){
-				troca(mags, j, j-1);
-				aux = places[j-1];
-				places[j-1] = places[j];
-				places[j] = aux;
+			if(mag[j] > mag[j-1]){
+				troca(mag, j, j-1);
+				aux = pos[j-1];
+				pos[j-1] = pos[j];
+				pos[j] = aux;
 			}
 		}
 	}
-	return mags;
+	return mag;
+}
+
+void zera_coeficiente(complex double *coeficiente, int *pos, int C, int N){
+	while(C <= N){
+		coeficiente[pos[C]] = 0;
+		C++;
+	}
 }
