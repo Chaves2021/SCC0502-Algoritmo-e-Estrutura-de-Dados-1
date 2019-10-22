@@ -33,7 +33,7 @@ unsigned char *dft_inversa(complex double *coeficiente, int N){
 	for(k = 0; k <= N; k++){
 		z = 0;
 		for(t = 0; t <= N/2; t++){
-			exp = 2 * k * acos(-1) * (t / N); //Tambem eh usado o arccos de -1 para ter o valor de pi
+			exp = 2 * k * acos(-1) * t / N; //Tambem eh usado o arccos de -1 para ter o valor de pi
 			z += cexp(I * exp) * coeficiente[t];
 		}
 		valor[k] = (unsigned char) round(creal(z)); // Arredondando valor para cima quando parte decimal eh >= 5
