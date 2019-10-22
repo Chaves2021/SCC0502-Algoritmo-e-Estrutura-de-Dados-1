@@ -13,7 +13,7 @@ complex double *dft(unsigned char *valor, int N){
 	for(k = 0; k <= N/2; k++){
 		z = 0;
 		for(t = 0; t < N; t++){
-			exp = 2 * k * acos(-1) * (t / N); //Tambem eh usado o arccos de -1 para ter o valor de pi
+			exp = 2 * k * acos(-1) * t / N; //Tambem eh usado o arccos de -1 para ter o valor de pi
 			z += cexp(-1 * I * exp) * valor[t];
 		}
 		if(k == 0)

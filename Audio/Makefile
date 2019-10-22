@@ -1,13 +1,14 @@
 CC=gcc
-BINARY=./bin/trab_final
+BINARY=./bin/trab
 INCLUDES=./includes/
-SRC=./src/fourier.c ./src/trab_final.c
-OPTIONS=-Wall -g
+SRC=./src/fourier.c ./src/file.c ./src/trab.c
+OPTIONS=-Wall -g -lm
+TEST=casos/1.in
 
 all:
-	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC)
+	@$(CC) $(SRC) -o $(BINARY) -I$(INCLUDES) $(OPTIONS)
 run:
-	@$(BINARY)
+	@$(BINARY) < $(TEST)
 debug:
 	@$(CC) $(OPTIONS) $(SRC) -I$(INCLUDES) -o $(BINARY)
-	@valgrind --leak-check=yes $(BINARY)
+	@valgrind --leak-check=yes $(BINARY) < $(TEST)

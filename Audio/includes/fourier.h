@@ -1,5 +1,5 @@
-#ifndef
-#define
+#ifndef _FOURIER_H_
+#define _FOURIER_H_
 
 //calcula a transformada discreta de fourier
 complex double *dft(unsigned char *, int);
