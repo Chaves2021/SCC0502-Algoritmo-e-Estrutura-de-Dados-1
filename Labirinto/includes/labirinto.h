@@ -14,7 +14,7 @@ struct segmento{
 	CAMARA *extremidade_2;
 	struct segmento *seg_1;
 	struct segmento *seg_2;
-	int comprimento;
+	double comprimento;
 };
 typedef struct segmento SEGMENTO;
 #endif
