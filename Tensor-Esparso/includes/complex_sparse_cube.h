@@ -30,6 +30,6 @@ typedef struct complex_sparse_cube_elem COMPLEX_SPARSE_CUBE_ELEM;
 
 COMPLEX_SPARSE_CUBE *complex_sparse_cube_create( int d1_dim, int d2_dim, int d3_dim, double constant);
 COMPLEX_SPARSE_PLANE_ELEM *complex_sparse_plane_put(COMPLEX_SPARSE_PLANE *plane, int x,int y, int *error);
-int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3, double elem);
+int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3, double elem, int *error);
 
 #endif
