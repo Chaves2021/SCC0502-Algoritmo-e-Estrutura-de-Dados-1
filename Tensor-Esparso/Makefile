@@ -11,4 +11,4 @@ run:
 	@$(BINARY)
 debug:
 	@$(CC) $(OPTIONS) $(SRC) -I$(INCLUDES) -o $(BINARY)
-	@valgrind --leak-check=yes $(BINARY) < $(TEST)
+	@valgrind --leak-check=yes $(BINARY)

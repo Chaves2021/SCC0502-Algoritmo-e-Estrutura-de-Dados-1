@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <complex_sparse_cube.h>
 #include <defines.h>
+#include <stdio.h>
 
 COMPLEX_SPARSE_PLANE *complex_sparse_plane_create(int x_dim,int y_dim) {
 	COMPLEX_SPARSE_PLANE *plane = (COMPLEX_SPARSE_PLANE *)
@@ -60,9 +61,19 @@ COMPLEX_SPARSE_PLANE_ELEM *
 	}
 }
 
+//TODO
+COMPLEX_SPARSE_CUBE_ELEM *complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
+			int d1, int d2, int d3){
+}
+
 int complex_sparse_cube_remove(COMPLEX_SPARSE_CUBE *cube,
 				int d1, int d2, int d3){
-
+	if (!cube) return INVALID_CUBE;
+	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
+		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
+		d3 < 0 || d3 >= cube->d3_d1->x_dim){
+			return INVALID_POS;
+	}
 
 	return SUCCESS;
 }
@@ -73,8 +84,9 @@ int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
 	if (!cube) return INVALID_CUBE;
 	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
 		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
-		d3 < 0 || d3 >= cube->d3_d1->x_dim)
+		d3 < 0 || d3 >= cube->d3_d1->x_dim){
 			return INVALID_POS;
+	}
 	if (cube->constant == elem) {
 		return complex_sparse_cube_remove(cube, d1, d2, d3);
 	}
@@ -121,6 +133,5 @@ int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
 		
 }
 
-// complex_sparse_cube_get
 // complex_sparse_cube_free
 
