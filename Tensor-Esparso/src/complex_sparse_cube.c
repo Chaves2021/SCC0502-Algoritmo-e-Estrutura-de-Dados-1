@@ -3,7 +3,7 @@
 #include <defines.h>
 #include <stdio.h>
 
-COMPLEX_SPARSE_PLANE *complex_sparse_plane_create(int x_dim,int y_dim) {
+COMPLEX_SPARSE_PLANE *complex_sparse_plane_create(long int x_dim, long int y_dim) {
 	COMPLEX_SPARSE_PLANE *plane = (COMPLEX_SPARSE_PLANE *)
 		malloc(sizeof(COMPLEX_SPARSE_PLANE));
 	plane->x_dim = x_dim;
@@ -16,7 +16,7 @@ COMPLEX_SPARSE_PLANE *complex_sparse_plane_create(int x_dim,int y_dim) {
 }
 
 COMPLEX_SPARSE_CUBE *complex_sparse_cube_create(
-		int d1_dim, int d2_dim, int d3_dim,
+		long int d1_dim, long int d2_dim, long int d3_dim,
 		double constant) {
 	COMPLEX_SPARSE_CUBE *cube = (COMPLEX_SPARSE_CUBE *) 
 		malloc(sizeof(COMPLEX_SPARSE_CUBE));
@@ -30,7 +30,7 @@ COMPLEX_SPARSE_CUBE *complex_sparse_cube_create(
 
 COMPLEX_SPARSE_PLANE_ELEM *
 	complex_sparse_plane_put(COMPLEX_SPARSE_PLANE *plane,
-				int x,int y, int *error) {
+				long int x, long int y, int *error) {
 	if (!plane) { *error = INVALID_PLANE; return NULL; }
 	if (x < 0 || x >= plane->x_dim ||
 		y < 0 || y >= plane->y_dim) {
@@ -61,8 +61,8 @@ COMPLEX_SPARSE_PLANE_ELEM *
 	}
 }
 
-double complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
-			int d1, int d2, int d3, int *error){
+long double complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
+			long int d1, long int d2, long int d3, int *error){
 	if (!cube) { return INVALID_CUBE;}
 	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
 		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
@@ -105,7 +105,7 @@ double complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
 }
 
 int complex_sparse_cube_remove(COMPLEX_SPARSE_CUBE *cube,
-				int d1, int d2, int d3, int *error){
+				long int d1, long int d2, long int d3, int *error){
 	if (!cube) return INVALID_CUBE;
 	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
 		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
@@ -149,8 +149,8 @@ int complex_sparse_cube_remove(COMPLEX_SPARSE_CUBE *cube,
 }
 
 int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
-				int d1, int d2, int d3,
-				double elem, int *error) {
+				long int d1, long int d2, long int d3,
+				long double elem, int *error) {
 	if (!cube) return INVALID_CUBE;
 	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
 		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
@@ -201,7 +201,11 @@ int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
 		*p_d2_d3 = *p_d3_d1 = *p_d1_d2 = new;
 	}
 		
+	return SUCCESS;
 }
 
-// complex_sparse_cube_free
+int complex_sparse_cube_free(COMPLEX_SPARSE_CUBE *cube){
+
+
+}
 

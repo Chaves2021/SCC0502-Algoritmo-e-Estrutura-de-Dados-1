@@ -3,7 +3,7 @@ BINARY=./bin/trab_final
 INCLUDES=./includes/
 SRC=./src/complex_sparse_cube.c ./src/main.c
 OPTIONS=-Wall -g
-TEST=casos/1.in
+TEST=casos/3.in
 
 all:
 	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC)
