@@ -7,5 +7,6 @@
 #define INVALID_CUBE 	-3
 #define INVALID_POS	-4
 #define INVALID_KEY     -5
+#define NOT_FOUND 	-6
 
 #endif

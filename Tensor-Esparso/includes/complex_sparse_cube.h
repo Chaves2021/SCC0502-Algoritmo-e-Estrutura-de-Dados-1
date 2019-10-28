@@ -35,7 +35,7 @@ COMPLEX_SPARSE_CUBE *complex_sparse_cube_create( int d1_dim, int d2_dim, int d3_
 
 int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3, double elem, int *error);
 
-COMPLEX_SPARSE_CUBE_ELEM *complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3);
+double complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3, int *error);
 
-int complex_sparse_cube_remove(cube, int d1, int d2, int d3);
+int complex_sparse_cube_remove(COMPLEX_SPARSE_CUBE *cube, int d1, int d2, int d3, int *error);
 #endif

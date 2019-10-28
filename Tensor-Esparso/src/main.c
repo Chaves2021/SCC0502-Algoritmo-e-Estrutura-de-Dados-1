@@ -8,6 +8,7 @@ int main(void){
 	double elem;
 	int error;
 	COMPLEX_SPARSE_CUBE *cube;
+	COMPLEX_SPARSE_CUBE_ELEM *cube_elem;
 
 	scanf("%d %d %d", &x, &y, &z);
 	//Criando o cubo
@@ -17,6 +18,13 @@ int main(void){
 	//Lendo coordenadas do elemento
 	scanf("%d %d %d", &d1, &d2, &d3);
 	complex_sparse_cube_put(cube, d1, d2, d3, elem, &error);
+	complex_sparse_cube_put(cube, d1, d2, d3, elem+1, &error);
+	complex_sparse_cube_put(cube, d1+1, d2, d3, elem+1, &error);
 
+	printf("o valor que eu inseri eh: %lf\n", complex_sparse_cube_get(cube, d1, d2, d3, &error));
+
+	complex_sparse_cube_remove(cube, d1, d2, d3, &error);
+	printf("o valor que eu inseri eh: %lf\n", complex_sparse_cube_get(cube, d1, d2, d3, &error));
+	printf("o valor que eu inseri eh: %lf\n", complex_sparse_cube_get(cube, d1+1, d2, d3, &error));
 	return 0;
 }

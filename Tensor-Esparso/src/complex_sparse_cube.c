@@ -61,18 +61,88 @@ COMPLEX_SPARSE_PLANE_ELEM *
 	}
 }
 
-//TODO
-COMPLEX_SPARSE_CUBE_ELEM *complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
-			int d1, int d2, int d3){
+double complex_sparse_cube_get(COMPLEX_SPARSE_CUBE *cube,
+			int d1, int d2, int d3, int *error){
+	if (!cube) { return INVALID_CUBE;}
+	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
+		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
+		d3 < 0 || d3 >= cube->d3_d1->x_dim){
+			return INVALID_POS;
+	}
+
+	//Getting planes
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d1_d2 =
+		complex_sparse_plane_put(cube->d1_d2, d1, d2, error);
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d2_d3 =
+		complex_sparse_plane_put(cube->d2_d3, d2, d3, error);
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d3_d1 =
+		complex_sparse_plane_put(cube->d3_d1, d3, d1, error);
+	
+	//Getting element
+	COMPLEX_SPARSE_CUBE_ELEM **p_d1_d2 = 
+		&elem_d1_d2->three_d_element;
+	COMPLEX_SPARSE_CUBE_ELEM **p_d2_d3 = 
+		&elem_d2_d3->three_d_element;
+	COMPLEX_SPARSE_CUBE_ELEM **p_d3_d1 = 
+		&elem_d3_d1->three_d_element;
+
+	while (*p_d1_d2 && (*p_d1_d2)->d3 < d3) 
+		p_d1_d2 = &(*p_d1_d2)->d3_next;
+	while (*p_d2_d3 && (*p_d2_d3)->d1 < d1)
+		p_d2_d3 = &(*p_d2_d3)->d1_next;
+	while (*p_d3_d1 && (*p_d3_d1)->d2 < d2)
+		p_d3_d1 = &(*p_d3_d1)->d2_next;
+
+	if (*p_d1_d2 && *p_d2_d3 && *p_d3_d1 &&
+		*p_d1_d2 == *p_d2_d3 && *p_d2_d3 == *p_d3_d1) {
+		*error = SUCCESS;
+		return (*p_d1_d2)->elem;
+	}
+	else{
+		*error = NOT_FOUND;
+		return cube->constant;
+	}
 }
 
 int complex_sparse_cube_remove(COMPLEX_SPARSE_CUBE *cube,
-				int d1, int d2, int d3){
+				int d1, int d2, int d3, int *error){
 	if (!cube) return INVALID_CUBE;
 	if (d1 < 0 || d1 >= cube->d1_d2->x_dim ||
 		d2 < 0 || d2 >= cube->d2_d3->x_dim ||
 		d3 < 0 || d3 >= cube->d3_d1->x_dim){
 			return INVALID_POS;
+	}
+
+	//Getting planes
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d1_d2 =
+		complex_sparse_plane_put(cube->d1_d2, d1, d2, error);
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d2_d3 =
+		complex_sparse_plane_put(cube->d2_d3, d2, d3, error);
+	COMPLEX_SPARSE_PLANE_ELEM *elem_d3_d1 =
+		complex_sparse_plane_put(cube->d3_d1, d3, d1, error);
+	
+	//Getting element
+	COMPLEX_SPARSE_CUBE_ELEM **p_d1_d2 = 
+		&elem_d1_d2->three_d_element;
+	COMPLEX_SPARSE_CUBE_ELEM **p_d2_d3 = 
+		&elem_d2_d3->three_d_element;
+	COMPLEX_SPARSE_CUBE_ELEM **p_d3_d1 = 
+		&elem_d3_d1->three_d_element;
+
+	while (*p_d1_d2 && (*p_d1_d2)->d3 < d3) 
+		p_d1_d2 = &(*p_d1_d2)->d3_next;
+	while (*p_d2_d3 && (*p_d2_d3)->d1 < d1)
+		p_d2_d3 = &(*p_d2_d3)->d1_next;
+	while (*p_d3_d1 && (*p_d3_d1)->d2 < d2)
+		p_d3_d1 = &(*p_d3_d1)->d2_next;
+
+	if(*p_d1_d2 && *p_d2_d3 && *p_d3_d1 && 
+		(*p_d1_d2)->d3 == d3 && (*p_d2_d3)->d1 == d1 && (*p_d3_d1)->d2 == d2){
+			COMPLEX_SPARSE_CUBE_ELEM *aux = *p_d1_d2;
+			*p_d1_d2 = (*p_d1_d2)->d3_next;
+			*p_d2_d3 = (*p_d2_d3)->d1_next;
+			*p_d3_d1 = (*p_d3_d1)->d2_next;
+			free(aux);
 	}
 
 	return SUCCESS;
@@ -88,7 +158,7 @@ int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
 			return INVALID_POS;
 	}
 	if (cube->constant == elem) {
-		return complex_sparse_cube_remove(cube, d1, d2, d3);
+		return complex_sparse_cube_remove(cube, d1, d2, d3, error);
 	}
 
 	// Creating the planes
