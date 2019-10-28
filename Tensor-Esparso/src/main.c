@@ -6,6 +6,8 @@
 
 int main(void){
 	long int x, y, z;
+	//Como existe a possibilidade de alguns inputs vierem no formato de potencia de 10,
+	//foi criada uma variavel auxiliar, uma vez que foi necessario o casting desse tipo de dado para long int
 	float aux;
 	long int d1, d2, d3;
 	long double elem;
@@ -58,6 +60,7 @@ int main(void){
 
 	}
 
+	//complex_sparse_cube_free(cube);
 
 	return SUCCESS;
 }

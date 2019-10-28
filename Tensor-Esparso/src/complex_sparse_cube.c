@@ -204,8 +204,45 @@ int complex_sparse_cube_put(COMPLEX_SPARSE_CUBE *cube,
 	return SUCCESS;
 }
 
+//Codigo nao funciona, problemas de double free
 int complex_sparse_cube_free(COMPLEX_SPARSE_CUBE *cube){
+	if(!cube) return INVALID_CUBE;
+	int i;
+	//Freeing d1_d2
+	for(i = 0; i < cube->d1_d2->x_dim; i++){
+		free(cube->d1_d2->x_index[i]);
+	}
+	free(cube->d1_d2->x_index);
+	for(i = 0; i < cube->d1_d2->y_dim; i++){
+		if(cube->d1_d2->y_index[i] != NULL) free(cube->d1_d2->y_index[i]);
+	}
+	free(cube->d1_d2->y_index);
+	free(cube->d1_d2);
 
+	//Freeing d2_d3
+	for(i = 0; i < cube->d2_d3->x_dim; i++){
+		free(cube->d2_d3->x_index[i]);
+	}
+	free(cube->d2_d3->x_index);
+	for(i = 0; i < cube->d2_d3->y_dim; i++){
+		if(cube->d2_d3->y_index[i] != NULL) free(cube->d2_d3->y_index[i]);
+	}
+	free(cube->d2_d3->y_index);
+	free(cube->d2_d3);
 
+	//Freeing d3_d1
+	for(i = 0; i < cube->d3_d1->x_dim; i++){
+		free(cube->d3_d1->x_index[i]);
+	}
+	free(cube->d3_d1->x_index);
+	for(i = 0; i < cube->d3_d1->y_dim; i++){
+		if(cube->d3_d1->y_index[i] != NULL) free(cube->d3_d1->y_index[i]);
+	}
+	free(cube->d3_d1->y_index);
+	free(cube->d3_d1);
+
+	//Freeing cube
+	free(cube);
+	return SUCCESS;
 }
 
