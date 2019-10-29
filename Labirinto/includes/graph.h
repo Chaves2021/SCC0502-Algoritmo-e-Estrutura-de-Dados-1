@@ -4,6 +4,7 @@ struct graph_elem{
 	float x, y;
 	int isCam;
 	int isExit; 
+	int verify; //Boolean para verificar se caminho ja foi feito ou nao
 	int connections; //Numero de conexoes que esse vertice tem
 	struct graph_elem **next; //Ponteiro duplo pois pode haver mais de um vertice conectado a outro
 				  //Conexoes ordenadas por ordem numerica
