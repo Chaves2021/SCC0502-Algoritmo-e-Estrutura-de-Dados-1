@@ -2,7 +2,8 @@
 #define _GRAFO_H_
 struct grafo_elem{
 	float x, y;
-	int 
+	int isCam;
+	int isExit; 
 }
 typedef struct grafo_elem GRAFO_ELEM;
 
@@ -13,4 +14,6 @@ struct grafo{
 	int arcos; //numero de caminhos
 }
 typedef struct grafo GRAFO;
+
+
 #endif
