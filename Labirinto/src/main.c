@@ -12,37 +12,35 @@ int main(void){
 	int s_in, s_out; //Quais pontos estao ligados, o de entrada e saida
 	int start_index;
 	float x, y;
-	int indice;
+	int index;
 	int isExit;
 	GRAPH *graph;
-	graph = (GRAPH *) calloc(1, sizeof(GRAPH));
-	GRAPH_ELEM **graph_elem;
 
 	scanf("%d", &np);
 	graph->adj = (int **) malloc(np * sizeof(int *));
 	graph->vertices = np;
-	graph_elem = (GRAPH_ELEM **) malloc(np * sizeof(GRAPH_ELEM *));
+	graph->graph_elem = (GRAPH_ELEM **) malloc(np * sizeof(GRAPH_ELEM *));
 
 	//Armazenando todos os pontos
 	for(i = 0; i < np; i++){
 		graph->adj[i] = (int *) calloc(np, sizeof(int));
-		graph_elem[i] = (GRAPH_ELEM *) calloc(1, sizeof(GRAPH_ELEM));
+		graph->graph_elem[i] = (GRAPH_ELEM *) calloc(1, sizeof(GRAPH_ELEM));
 		scanf("%f", &x);
 		scanf("%f", &y);
-		graph_elem[i]->x = x;
-		graph_elem[i]->y = y;
+		graph->graph_elem[i]->x = x;
+		graph->graph_elem[i]->y = y;
 	}
 
 	//Armazenando todas as camaras
 	scanf("%d", &nc);
 	if(nc > np) return INVALID_CAM_NUMBER;
 	for (i = 0; i < nc; i++){
-		scanf("%d", &indice);
-		if(indice > np) return INVALID_INDEX;
-		graph_elem[indice]->isCam = TRUE;
+		scanf("%d", &index);
+		if(index > np) return INVALID_INDEX;
+		graph->graph_elem[index]->isCam = TRUE;
 		scanf("%d", &isExit);
-		if(isExit) graph_elem[indice]->isExit = TRUE;
-		else graph_elem[indice]->isExit = FALSE;
+		if(isExit) graph->graph_elem[index]->isExit = TRUE;
+		else graph->graph_elem[index]->isExit = FALSE;
 
 	}
 

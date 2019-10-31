@@ -18,6 +18,7 @@ struct graph{
 	int cams; //numero de camaras
 	int paths; //numero de segmentos
 	int **adj; //se eh um caminho, o valor da matriz eh 1, se nao eh 0
+	GRAPH_ELEM **graph_elem;
 }
 typedef struct graph GRAPH;
 
