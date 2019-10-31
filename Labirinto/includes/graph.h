@@ -1,21 +1,23 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
+
+//Graph elem sera um vetor que armazenara uma informacao de cada ponto
+//Sera a informacao dos vertices do grafo, porem sem estar linkado 
 struct graph_elem{
 	float x, y;
 	int isCam;
 	int isExit; 
-	int verify; //Boolean para verificar se caminho ja foi feito ou nao
 	int connections; //Numero de conexoes que esse vertice tem
-	struct graph_elem **next; //Ponteiro duplo pois pode haver mais de um vertice conectado a outro
-				  //Conexoes ordenadas por ordem numerica
 }
 typedef struct graph_elem GRAPH_ELEM;
 
+//Graph sera um unico elemento com as infos do labirinto
 struct graph{
-	GRAPH_ELEM *first;
+	int start_index; //indice da camera de inicio
 	int vertices; //os vertices sao os numeros de pontos
+	int cams; //numero de camaras
+	int paths; //numero de segmentos
 	int **adj; //se eh um caminho, o valor da matriz eh 1, se nao eh 0
-	int paths; //numero de caminhos
 }
 typedef struct graph GRAPH;
 
