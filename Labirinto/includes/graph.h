@@ -22,8 +22,11 @@ struct graph{
 }
 typedef struct graph GRAPH;
 
-//TODO Mudar main para modularizar melhor o codigo
-//GRAPH *create_graph();
-int **paths(GRAPH *);
+GRAPH *create_graph();
+int save_points(GRAPH *, int);
+int save_cams(GRAPH *, int);
+int save_paths(GRAPH *, int, int);
+int set_start_index(GRAPH *, int, int);
+int **exits(GRAPH *);
 int free_graph(GRAPH *);
 #endif
