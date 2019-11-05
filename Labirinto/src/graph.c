@@ -35,6 +35,7 @@ int save_cams(GRAPH *graph, int nc, int np){
 	int index;
 	int isExit;
 	if(nc > np) return INVALID_CAM_NUMBER;
+	graph->cams = np;
 	for (i = 0; i < nc; i++){
 		scanf("%d", &index);
 		if(index > np) return INVALID_INDEX;
@@ -49,6 +50,7 @@ int save_cams(GRAPH *graph, int nc, int np){
 int save_paths(GRAPH *graph, int ns, int np){
 	int i;
 	int s_in, s_out; //Quais pontos estao ligados, o de entrada e saida
+	graph->paths = ns;
 	for (i = 0; i < ns; i++){
 		scanf("%d %d", &s_in, &s_out);
 		if(s_in > np || s_out > np || s_in == s_out) return INVALID_PATH;
@@ -71,6 +73,13 @@ int set_start_index(GRAPH *graph, int start_index, int np){
 }
 
 int **exits(GRAPH *graph){
+	STACK *stack;
+	int **exit;
+	int counter_0 = 1;
+	int counter_1 = 1;
+	stack = create_stack();
+	exit = (int **) realloc(exit, counter_0 * sizeof(int*));
+	exit[0] = (int *) realloc(exit, counter_1 * sizeof(int));
 
 
 	return SUCCESS;

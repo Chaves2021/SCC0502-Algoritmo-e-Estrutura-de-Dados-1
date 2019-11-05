@@ -11,6 +11,7 @@ int main(void){
 	int ns; //Numero de segmentos
 	int start_index;
 	GRAPH *graph;
+	int **exit;
 
 	graph = create_graph();
 	scanf("%d", &np);
@@ -28,5 +29,8 @@ int main(void){
 	scanf("%d", &start_index);
 	set_start_index(graph, start_index, np);
 
+	//Definindo todas as saidas do labirinto
+	exit = exits(graph);
+	
 	return SUCCESS;
 }

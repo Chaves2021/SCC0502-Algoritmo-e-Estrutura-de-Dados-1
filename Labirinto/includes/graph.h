@@ -23,10 +23,20 @@ struct graph{
 typedef struct graph GRAPH;
 
 GRAPH *create_graph();
+
+//Funcao para armazenar todos os pontos
 int save_points(GRAPH *, int);
+
+//Funcao para armazenar todas as camaras
 int save_cams(GRAPH *, int, int);
+
+//Funcao para armazenar todos os caminhos possiveis
 int save_paths(GRAPH *, int, int);
+
+//Funcao para setar o ponto inicial no descritor
 int set_start_index(GRAPH *, int, int);
+
+//Funcao para achar todas saidas
 int **exits(GRAPH *);
 int free_graph(GRAPH *);
 #endif
