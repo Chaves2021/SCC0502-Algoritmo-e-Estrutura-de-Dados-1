@@ -61,6 +61,7 @@ int main(void){
 
 	//Lendo indice da camara de inicio
 	scanf("%d", &start_index);
+	if(start_index <= 0 || start_index > np) return INVALID_INDEX;
 	graph->start_index = start_index;
 
 	return SUCCESS;
