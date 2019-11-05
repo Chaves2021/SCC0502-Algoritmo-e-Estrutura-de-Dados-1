@@ -9,11 +9,7 @@ int main(void){
 	int np; //Numero de pontos
 	int nc; //Numero de camaras
 	int ns; //Numero de segmentos
-	int s_in, s_out; //Quais pontos estao ligados, o de entrada e saida
 	int start_index;
-	float x, y;
-	int index;
-	int isExit;
 	GRAPH *graph;
 
 	graph = create_graph();
@@ -22,7 +18,7 @@ int main(void){
 
 	//Armazenando todas as camaras
 	scanf("%d", &nc);
-	save_cams(graph, nc);
+	save_cams(graph, nc, np);
 
 	//Armazenando todos os paths
 	scanf("%d", &ns);

@@ -8,7 +8,7 @@ struct graph_elem{
 	int isCam;
 	int isExit; 
 	int connections; //Numero de conexoes que esse vertice tem
-}
+};
 typedef struct graph_elem GRAPH_ELEM;
 
 //Graph sera um unico elemento com as infos do labirinto
@@ -19,12 +19,12 @@ struct graph{
 	int paths; //numero de segmentos
 	int **adj; //se eh um caminho, o valor da matriz eh 1, se nao eh 0
 	GRAPH_ELEM **graph_elem;
-}
+};
 typedef struct graph GRAPH;
 
 GRAPH *create_graph();
 int save_points(GRAPH *, int);
-int save_cams(GRAPH *, int);
+int save_cams(GRAPH *, int, int);
 int save_paths(GRAPH *, int, int);
 int set_start_index(GRAPH *, int, int);
 int **exits(GRAPH *);
