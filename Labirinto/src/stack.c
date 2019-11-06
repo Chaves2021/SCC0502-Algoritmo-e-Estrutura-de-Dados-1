@@ -20,12 +20,8 @@ int push_stack_elem(STACK *stack, int indice){
 }
 
 int pop_stack_elem(STACK *stack){
-	if(!stack){ 
-		return INVALID_STACK;
-	}
-	if(!stack->counter){
-		return INVALID_STACK;
-	}
+	if(!stack)return INVALID_STACK;
+	if(!stack->counter) return INVALID_STACK;
 	int indice;
 	STACK_ELEMENT *e = stack->top;
 	stack->top = e->next;
@@ -33,5 +29,12 @@ int pop_stack_elem(STACK *stack){
 	free(e);
 	stack->counter--;
 	return indice;
+
+}
+
+int show_stack_top(STACK *stack){
+	if(!stack)return INVALID_STACK;
+	if(!stack->counter) return INVALID_STACK;
+	return stack->top->elem;
 
 }

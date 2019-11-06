@@ -80,7 +80,11 @@ int **exits(GRAPH *graph){
 	stack = create_stack();
 	exit = (int **) realloc(exit, counter_0 * sizeof(int*));
 	exit[0] = (int *) realloc(exit, counter_1 * sizeof(int));
+	counter_0++;
+	counter_1++;
 
+	//Empillhando inicio do camara
+	push_stack_elem(stack, graph->start_index);
 
 	return SUCCESS;
 }

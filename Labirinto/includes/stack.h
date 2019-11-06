@@ -15,5 +15,6 @@ typedef struct stack STACK;
 STACK *create_stack();
 int push_stack_elem(STACK *, int);
 int pop_stack_elem(STACK *);
+int show_stack_top(STACK *);
 int free_stack(STACK *);
 #endif
