@@ -75,16 +75,26 @@ int set_start_index(GRAPH *graph, int start_index, int np){
 int **exits(GRAPH *graph){
 	STACK *stack;
 	int **exit;
+	//O counter_0 sera incrementado quando uma saida for achada, ele representa quantos paths de saida existem
 	int counter_0 = 1;
-	int counter_1 = 1;
+	//Variavel para guardar tamanho maximo da saida
+	//Queria usar o stack->counter mas ele eh decrementado a cada pop na stack :(
+	int aux;
 	stack = create_stack();
-	exit = (int **) realloc(exit, counter_0 * sizeof(int*));
-	exit[0] = (int *) realloc(exit, counter_1 * sizeof(int));
+	exit = (int **) realloc(exit, counter_0 * sizeof(int));
+	exit[0] = (int *) realloc(exit, 1 * sizeof(int));
 	counter_0++;
-	counter_1++;
 
-	//Empillhando inicio do camara
+	//TODO Como fazer para nao percorrer o mesmo caminho muitas vezs
 	push_stack_elem(stack, graph->start_index);
+	while(stack->counter){
+		if(graph->graph_elem[show_stack_top(stack)]->isExit){
+			aux = stack->counter - 1;
+			for(i = 0; i < stack->counter; i++){
+				exit[counter_0][aux - i] = pop_stack_elem(stack);
+			}
+		}
+	}
 
 	return SUCCESS;
 }
