@@ -85,7 +85,9 @@ int **exits(GRAPH *graph){
 	exit[0] = (int *) realloc(exit, 1 * sizeof(int));
 	counter_0++;
 
-	//TODO Como fazer para nao percorrer o mesmo caminho muitas vezs
+	//TODO Implementar uma DFS alterada
+	//TODO Aparentemente nao vou pintar as arestas, mas penso que quando meu start_index nao for o inicio, talvez precise
+	//TODO Nao sei se a funcao de printar a stack fere o TAD, irei perguntar hoje a noite na aula
 	push_stack_elem(stack, graph->start_index);
 	while(stack->counter){
 		if(graph->graph_elem[show_stack_top(stack)]->isExit){
