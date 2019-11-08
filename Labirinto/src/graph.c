@@ -76,7 +76,7 @@ int *make_exit(STACK *stack){
 	STACK_ELEMENT **p;
 	p = &(stack->top);
 	int *exit = (int *) malloc(stack->counter * sizeof(int));
-	int counter = 0;
+	int counter = 1;
 	while(*p){
 		exit[stack->counter - counter] = (*p)->elem;
 		p = &((*p)->next);
@@ -85,8 +85,6 @@ int *make_exit(STACK *stack){
 	return exit;
 }
 
-//TODO
-//Descobrir pq nao esta entrando no if de saida, exit esta sendo null
 int **exits(GRAPH *graph){
 	STACK *stack;
 	int **exit = NULL;
@@ -100,16 +98,17 @@ int **exits(GRAPH *graph){
 	stack = create_stack();
 	exit = (int **) realloc(exit, 1 * sizeof(int));
 
-	//TODO A principio irei pintar as arestas, mas nao sei se isso pode me atrapalhar em alguns casos de teste
+	//TODO Soh consigo printar o primeiro caminho, pintar as arestas esta atrapalhando 
 	push_stack_elem(stack, graph->start_index);
+	graph->graph_elem[graph->start_index - 1]->isPassed = TRUE;
 	//Enquanto tiver elementos na pilha
 	while(stack->counter){
-		if(graph->graph_elem[show_stack_top(stack)]->isExit && final){
+		if(graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			//Escrevendo indices no vetor de saida
 			exit[counter_0] = make_exit(stack);
 			//Aumentando o tamanho do vetor de exit, falando que tem mais um path de saida
 			counter_0++;
-			exit = (int **) realloc(exit, counter_0 * sizeof(int));
+			exit = (int **) realloc(exit, (counter_0 + 1) * sizeof(int));
 			for(i = 0; i < graph->vertices && stack->counter && final; i++){ 
 				if(graph->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
 					push_stack_elem(stack, i + 1);
@@ -123,13 +122,13 @@ int **exits(GRAPH *graph){
 			}
 		}
 		//Caso tenha chegado no final mas seja um beco sem saida
-		else if(!graph->graph_elem[show_stack_top(stack)]->isExit && final){ 
+		else if(!graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){ 
 			pop_stack_elem(stack);
 		}
 		//Caso nao tenha chegado ate o final daquela parte do grafo, avance no grafo
 		else{
 			for(i = 0; i < graph->vertices && !final; i++){
-				if(graph->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
+				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isPassed){
 					graph->graph_elem[i]->isPassed = TRUE;
 					push_stack_elem(stack, i + 1);
 					i = 0;
@@ -140,5 +139,5 @@ int **exits(GRAPH *graph){
 		}
 	}
 
-	return SUCCESS;
+	return exit;
 }

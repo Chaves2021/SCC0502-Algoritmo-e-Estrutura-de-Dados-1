@@ -31,5 +31,7 @@ int main(void){
 
 	//Definindo todas as saidas do labirinto
 	exit = exits(graph);
+	//TODO
+	for(int i = 0; i < 3; i++) printf("%d ", exit[0][i]);
 	return SUCCESS;
 }
