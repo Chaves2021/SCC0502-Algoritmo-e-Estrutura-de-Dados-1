@@ -31,6 +31,5 @@ int main(void){
 
 	//Definindo todas as saidas do labirinto
 	exit = exits(graph);
-	
 	return SUCCESS;
 }

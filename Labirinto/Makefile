@@ -3,7 +3,7 @@ BINARY=./bin/main
 INCLUDES=./includes/
 SRC=./src/stack.c ./src/graph.c ./src/main.c
 OPTIONS=-Wall -g -lm
-TEST=casos/1.in
+TEST=casos/8.in
 
 all:
 	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC)

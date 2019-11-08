@@ -69,45 +69,50 @@ int set_start_index(GRAPH *graph, int start_index, int np){
 	return SUCCESS;
 }
 
-STACK *copy_stack(STACK *stack){
-	if(!stack) return INVALID_STACK;
-	STACK *stack_aux;
-
-	return stack_aux;
+//Funcao para printar a stack
+//Ela fere o TAD, porem tive dificuldades em criar uma funcao copy_stack sem alterar a original
+int *make_exit(STACK *stack){
+	if(!stack) return (int *) INVALID_STACK;
+	STACK_ELEMENT **p;
+	p = &(stack->top);
+	int *exit = (int *) malloc(stack->counter * sizeof(int));
+	int counter = 0;
+	while(*p){
+		exit[stack->counter - counter] = (*p)->elem;
+		p = &((*p)->next);
+		counter++;
+	}
+	return exit;
 }
 
+//TODO
+//Descobrir pq nao esta entrando no if de saida, exit esta sendo null
 int **exits(GRAPH *graph){
 	STACK *stack;
-	STACK *stack_aux;
-	int **exit;
+	int **exit = NULL;
+	int i;
 	//Flag para sinalizar se ja cheguei na maior profundidade possivel
 	int final = FALSE;
 	//O counter_0 sera incrementado quando uma saida for achada, ele representa quantos paths de saida existem
 	int counter_0 = 0;
 	//Variavel para guardar tamanho maximo da saida
 	//Queria usar o stack->counter mas ele eh decrementado a cada pop na stack :(
-	int aux;
 	stack = create_stack();
 	exit = (int **) realloc(exit, 1 * sizeof(int));
 
 	//TODO A principio irei pintar as arestas, mas nao sei se isso pode me atrapalhar em alguns casos de teste
-	//TODO Implementar a funcao copy_stack
 	push_stack_elem(stack, graph->start_index);
+	//Enquanto tiver elementos na pilha
 	while(stack->counter){
 		if(graph->graph_elem[show_stack_top(stack)]->isExit && final){
-			stack_aux = copy_stack(stack);
 			//Escrevendo indices no vetor de saida
-			for(i = 0; i < stack->counter; i++){
-				exit[counter_0] = (int *) malloc(stack->counter * sizeof(int));
-				exit[counter_0][(stack->counter - 1) - i] = pop_stack_elem(stack_aux);
-			}
+			exit[counter_0] = make_exit(stack);
 			//Aumentando o tamanho do vetor de exit, falando que tem mais um path de saida
 			counter_0++;
 			exit = (int **) realloc(exit, counter_0 * sizeof(int));
-			aux = stack->counter - 1;
-			for(i = 0; i < graph->vertices && graph->counter; i++){ 
-				if(stack->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed && final){
-					push_stack_elem(stack, i);
+			for(i = 0; i < graph->vertices && stack->counter && final; i++){ 
+				if(graph->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
+					push_stack_elem(stack, i + 1);
 					graph->graph_elem[i]->isPassed = TRUE;
 					final = FALSE;
 				}
@@ -117,16 +122,21 @@ int **exits(GRAPH *graph){
 				}
 			}
 		}
+		//Caso tenha chegado no final mas seja um beco sem saida
+		else if(!graph->graph_elem[show_stack_top(stack)]->isExit && final){ 
+			pop_stack_elem(stack);
+		}
 		//Caso nao tenha chegado ate o final daquela parte do grafo, avance no grafo
 		else{
 			for(i = 0; i < graph->vertices && !final; i++){
-				if(stack->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
+				if(graph->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
 					graph->graph_elem[i]->isPassed = TRUE;
-					push_stack_elem(stack, i);
+					push_stack_elem(stack, i + 1);
 					i = 0;
 				}
-				else final = TRUE;
 			}	
+			//Se chegou aqui, eh pq nao tem mais para onde ir
+			final = TRUE;
 		}
 	}
 
