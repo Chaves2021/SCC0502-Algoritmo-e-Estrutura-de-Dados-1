@@ -58,6 +58,8 @@ int save_paths(GRAPH *graph, int ns, int np){
 		if(s_in > 0 && s_out > 0){
 			graph->adj[s_in - 1][s_out - 1] = 1;
 			graph->adj[s_out - 1][s_in - 1] = 1;
+			graph->graph_elem[s_in - 1]->connections += 1;
+			graph->graph_elem[s_out - 1]->connections += 1;
 		}
 	}
 	return SUCCESS;
@@ -98,10 +100,10 @@ int **exits(GRAPH *graph){
 	stack = create_stack();
 	exit = (int **) realloc(exit, 1 * sizeof(int));
 
-	//TODO Soh consigo printar o primeiro caminho, pintar as arestas esta atrapalhando 
 	push_stack_elem(stack, graph->start_index);
-	graph->graph_elem[graph->start_index - 1]->isPassed = TRUE;
+	graph->graph_elem[graph->start_index - 1]->isPassed_counter += 1;
 	//Enquanto tiver elementos na pilha
+	//TODO O labirinto esta dando voltas no caso 8, ta tenso rapaz
 	while(stack->counter){
 		if(graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			//Escrevendo indices no vetor de saida
@@ -110,9 +112,10 @@ int **exits(GRAPH *graph){
 			counter_0++;
 			exit = (int **) realloc(exit, (counter_0 + 1) * sizeof(int));
 			for(i = 0; i < graph->vertices && stack->counter && final; i++){ 
-				if(graph->adj[show_stack_top(stack)][i] && !graph->graph_elem[i]->isPassed){
+				if(graph->adj[show_stack_top(stack)][i] && !(graph->graph_elem[i]->connections -
+											graph->graph_elem[i]->isPassed_counter)){
 					push_stack_elem(stack, i + 1);
-					graph->graph_elem[i]->isPassed = TRUE;
+					graph->graph_elem[i]->isPassed_counter += 1;
 					final = FALSE;
 				}
 				else if(i == (graph->vertices - 1)){
@@ -128,8 +131,9 @@ int **exits(GRAPH *graph){
 		//Caso nao tenha chegado ate o final daquela parte do grafo, avance no grafo
 		else{
 			for(i = 0; i < graph->vertices && !final; i++){
-				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isPassed){
-					graph->graph_elem[i]->isPassed = TRUE;
+				if(graph->adj[show_stack_top(stack) - 1][i] && !(graph->graph_elem[i]->connections -
+											graph->graph_elem[i]->isPassed_counter)){
+					graph->graph_elem[i]->isPassed_counter += 1;
 					push_stack_elem(stack, i + 1);
 					i = 0;
 				}
