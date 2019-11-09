@@ -91,8 +91,8 @@ int **exits(GRAPH *graph){
 	STACK *stack;
 	int **exit = NULL;
 	int i;
-	//Flag para sinalizar se ja cheguei na maior profundidade possivel
-	int final = FALSE;
+	//Flag para saber se preciso fazer uma nova checagem se o vertice eh saida ou nao
+	int new_check = FALSE;
 	//O counter_0 sera incrementado quando uma saida for achada, ele representa quantos paths de saida existem
 	int counter_0 = 0;
 	//Variavel para guardar tamanho maximo da saida
@@ -101,9 +101,37 @@ int **exits(GRAPH *graph){
 	exit = (int **) realloc(exit, 1 * sizeof(int));
 
 	push_stack_elem(stack, graph->start_index);
-	graph->graph_elem[graph->start_index - 1]->isPassed_counter += 1;
+	graph->graph_elem[graph->start_index - 1]->isPassed = 1;
 	//Enquanto tiver elementos na pilha
-	//TODO O labirinto esta dando voltas no caso 8, ta tenso rapaz
+	//TODO por enquanto consegui percorrer o grafo em apenas um unico sentido
+	while(stack->counter){
+		if(!graph->graph_elem[show_stack_top(stack) - 1]->isExit){
+			new_check = FALSE;
+			for(i = 0; i < graph->vertices && !new_check; i++)
+				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isPassed){
+					graph->graph_elem[i]->isPassed = TRUE;
+					push_stack_elem(stack, i + 1);
+					new_check = TRUE;
+				}
+			if(!new_check) pop_stack_elem(stack);
+		}
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
 	while(stack->counter){
 		if(graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			//Escrevendo indices no vetor de saida
@@ -142,6 +170,7 @@ int **exits(GRAPH *graph){
 			final = TRUE;
 		}
 	}
+	*/
 
 	return exit;
 }
