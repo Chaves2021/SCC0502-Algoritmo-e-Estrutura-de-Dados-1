@@ -27,6 +27,7 @@ int pop_stack_elem(STACK *stack){
 	stack->top = e->next;
 	indice = e->elem; 
 	free(e);
+	e = NULL;
 	stack->counter--;
 	return indice;
 
