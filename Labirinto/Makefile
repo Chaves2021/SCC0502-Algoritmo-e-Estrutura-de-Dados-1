@@ -6,7 +6,7 @@ OPTIONS=-Wall -g -lm
 TEST=casos/8.in
 
 all:
-	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC)
+	@$(CC) $(OPTIONS) -o $(BINARY) -I$(INCLUDES) $(SRC)
 run:
 	@$(BINARY) < $(TEST)
 debug:

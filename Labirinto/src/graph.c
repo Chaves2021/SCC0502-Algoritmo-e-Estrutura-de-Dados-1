@@ -91,6 +91,8 @@ int **exits(GRAPH *graph){
 	STACK *stack;
 	int **exit = NULL;
 	int i;
+	int final = FALSE;
+	int aux;
 	//Flag para saber se preciso fazer uma nova checagem se o vertice eh saida ou nao
 	int new_check = FALSE;
 	//O counter_0 sera incrementado quando uma saida for achada, ele representa quantos paths de saida existem
@@ -102,28 +104,16 @@ int **exits(GRAPH *graph){
 
 	push_stack_elem(stack, graph->start_index);
 	graph->graph_elem[graph->start_index - 1]->isActive = TRUE;
-	graph->graph_elem[graph->start_index - 1]->isPassed_counter += 1;
 	//Enquanto tiver elementos na pilha
-	//TODO adicionar algo para nao haver empilhamento de mesma funcao
-	//TODO com uma flag de final, talvez de certo o codigo
 	while(stack->counter){
-		if(!graph->graph_elem[show_stack_top(stack) - 1]->isExit){
-			new_check = FALSE;
-			for(i = 0; i < graph->vertices && !new_check; i++)
-				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isActive &&
-							(graph->graph_elem[i]->connections - graph->graph_elem[i]->isPassed_counter)){
-					graph->graph_elem[i]->isPassed_counter += 1;
-					graph->graph_elem[i]->isActive = TRUE;
-					push_stack_elem(stack, i + 1);
-					new_check = TRUE;
-				}
+		if(!graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			//Se nao existem paths disponiveis, entao voltar
-			if(!new_check){
-				graph->graph_elem[show_stack_top(stack) - 1]->isActive = FALSE;
-				pop_stack_elem(stack);
-			}
+			graph->graph_elem[show_stack_top(stack) - 1]->isActive = FALSE;
+			final = FALSE;
+			graph->graph_elem[show_stack_top(stack) - 1]->isPassed_counter += 1;
+			pop_stack_elem(stack);
 		}
-		else if(graph->graph_elem[show_stack_top(stack) - 1]->isExit){
+		else if(graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			new_check = FALSE;
 			//Escrevendo indices no vetor de saida
 			exit[counter_0] = make_exit(stack);
@@ -131,21 +121,41 @@ int **exits(GRAPH *graph){
 			counter_0++;
 			exit = (int **) realloc(exit, (counter_0 + 1) * sizeof(int));
 			for(i = 0; i < graph->vertices && !new_check; i++)
-				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isActive && 
-							(graph->graph_elem[i]->connections - graph->graph_elem[i]->isPassed_counter)){
-					graph->graph_elem[i]->isPassed_counter += 1;
-					graph->graph_elem[i]->isActive = TRUE;
-					push_stack_elem(stack, i + 1);
-					new_check = TRUE;
+				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isActive){
+					aux = graph->graph_elem[show_stack_top(stack) - 1]->isPassed_counter;
+					if(aux) aux--;
+					else{
+						graph->graph_elem[i]->isActive = TRUE;
+						push_stack_elem(stack, i + 1);
+						new_check = TRUE;
+					}
 				}
 			//Se nao existem paths disponiveis, entao voltar
 			if(!new_check){
 				graph->graph_elem[show_stack_top(stack) - 1]->isActive = FALSE;
+				final = FALSE;
+				graph->graph_elem[show_stack_top(stack) - 1]->isPassed_counter += 1;
 				pop_stack_elem(stack);
 			}
 		}
-
-
+		//Ainda nao cheguei no final
+		else{
+			new_check = FALSE;
+			for(i = 0; i < graph->vertices && !new_check; i++)
+				if(graph->adj[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isActive){
+					aux = graph->graph_elem[i]->isPassed_counter;
+					if(aux) aux--;
+					else{
+						graph->graph_elem[i]->isActive = TRUE;
+						push_stack_elem(stack, i + 1);
+						new_check = TRUE;
+					}
+				}
+			//Se nao existem paths disponiveis, entao cheguei no final
+			if(!new_check){
+				final = TRUE;
+			}
+		}
 	}
 
 
