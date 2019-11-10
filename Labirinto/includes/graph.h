@@ -7,7 +7,8 @@ struct graph_elem{
 	float x, y;
 	int isCam;
 	int isExit; 
-	int isPassed;
+	int isPassed_counter;
+	int isActive;
 	int connections; //Numero de conexoes que esse vertice tem
 };
 typedef struct graph_elem GRAPH_ELEM;
