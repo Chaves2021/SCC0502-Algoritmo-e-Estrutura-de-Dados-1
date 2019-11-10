@@ -6,9 +6,9 @@ OPTIONS=-Wall -g -lm
 TEST=casos/8.in
 
 all:
-	@$(CC) $(OPTIONS) -o $(BINARY) -I$(INCLUDES) $(SRC)
+	@$(CC) -o $(BINARY) -I$(INCLUDES) $(SRC) $(OPTIONS)
 run:
-	@$(BINARY) < $(TEST)
+	@$(BINARY)
 debug:
 	@$(CC) $(OPTIONS) $(SRC) -I$(INCLUDES) -o $(BINARY)
 	@valgrind --leak-check=yes $(BINARY) < $(TEST)

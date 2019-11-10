@@ -31,7 +31,13 @@ int main(void){
 
 	//Definindo todas as saidas do labirinto
 	exit = exits(graph);
-	//TODO
-	for(int i = 0; i < 3; i++) printf("%d ", exit[0][i]);
+	//Dando free para que compilador nao reclame de variavel nao utilizada
+	free(exit);
+
+	//O usuario deveria chamar a funcao build_answer para formatar a resposta, porem nao tive tempo de implementa-la
+	//Queria que o usuario chamasse a funcao build_answer ao inves dela ser executada dentro da funcao exits
+	//Porem nao tive tempo de refaze-la, entao as variaveis counter_points e counter_0 so sao acessadas dentro da funcao exits
+	//Pensei em fazer uma struct de saidas para armazenas essas variaveis dentro do grafo, porem novamente sem tempo :(
+	//build_answer(graph, exit, counter_points, counter_0);
 	return SUCCESS;
 }

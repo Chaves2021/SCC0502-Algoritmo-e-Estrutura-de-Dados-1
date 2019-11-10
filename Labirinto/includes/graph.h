@@ -7,7 +7,6 @@ struct graph_elem{
 	float x, y;
 	int isCam;
 	int isExit; 
-	int isPassed_counter;
 	int isActive;
 	int connections; //Numero de conexoes que esse vertice tem
 };
@@ -41,5 +40,8 @@ int set_start_index(GRAPH *, int, int);
 
 //Funcao para achar todas saidas
 int **exits(GRAPH *);
+
+//Funcao para formatar a saida
+int build_answer(GRAPH *, int **, int *, int);
 int free_graph(GRAPH *);
 #endif

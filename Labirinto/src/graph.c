@@ -79,20 +79,108 @@ int set_start_index(GRAPH *graph, int start_index, int np){
 
 //Funcao para printar a stack
 //Ela fere o TAD, porem tive dificuldades em criar uma funcao copy_stack sem alterar a original
-int *make_exit(STACK *stack){
+int *make_exit(STACK *stack, int *counter_points){
 	if(!stack) return (int *) INVALID_STACK;
 	STACK_ELEMENT **p;
 	p = &stack->top;
 	int *exit = (int *) calloc(stack->counter,  sizeof(int));
 	int counter = 1;
+	*counter_points = 0;
 	while(*p){
 		exit[stack->counter - counter] = (*p)->elem;
 		p = &((*p)->next);
 		counter++;
 	}
+	//Como counter ja comeca com 1, ele sempre precisara ser decrementado em 1
+	(*counter_points) = counter - 1;
 	return exit;
 }
 
+//Calcular a distancia euclidiana entre 2 pontos para saber o tamanho do segmento
+int euclidian_distance(int x1, int y1, int x2, int y2){
+	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
+float geodesic_distance(GRAPH *graph, int *exit, int counter_points){
+	float dist = 0;
+	float x1, x2, y1, y2;
+	int i;
+	for(i = 0; i < counter_points - 1; i++){
+		x1 = graph->graph_elem[exit[i]]->x;
+		y1 = graph->graph_elem[exit[i]]->y;
+		x2 = graph->graph_elem[exit[i + 1]]->x;
+		y2 = graph->graph_elem[exit[i + 1]]->y;
+		dist += euclidian_distance(x1, y1, x2, y2);
+	}
+
+	return dist;
+}
+
+//Funcao para formatar a saida esperada no run.codes
+/*
+int build_answer(GRAPH *graph, int **exit, int *counter_points, int counter_0){
+	//Variavel auxiliar para saber quais paths ja foram printados
+	int *isPrinted;
+	//Variavel para saber se todos os paths foram printados
+	int print_counter = counter_0;
+	isPrinted = (int *) calloc(counter_0, sizeof(int));
+	//Variavel para saber a ordem dos indices do vetor exit a serem printados
+	int *sorted_index;
+	sorted_index = (int *) malloc(counter_0 * sizeof(int));
+	//Variavel para saber a distancia da origem ate a saida de cada path
+	float *dist;
+	dist = (float *) calloc(counter_0, sizeof(float));
+	//Variavel auxiliar para guardar valor temporariamente
+	int aux;
+	int i, j;
+
+	//Inicializando vetor com todos os indices do vetor exit
+	for(i = 0; i < counter_0; i++){
+		sorted_index[i] = i;
+	}
+
+	//Calculando a distancia geodesica de cada path
+	for(i = 0; i < counter_0; i++){
+		dist[i] = geodesic_distance(graph, exit[i], counter_points[i]);
+	}
+
+	//Ordenando pela distancia geodesica dos pontos
+	for(i = 0; i < counter_0 - 1; i++){
+		for(j = i + 1; j < counter_0; j++){
+			if(dist[sorted_index[i]] > dist[sorted_index[j]]){
+				aux = sorted_index[i];
+				sorted_index[i] = sorted_index[j];
+				sorted_index[j] = aux;
+			}
+		}
+	}
+	//Ordenando por menor numero de pontos caso a distancia geodesica seja a mesma
+	for(i = 0; i < counter_0 - 1; i++){
+		for(j = i + 1; j < counter_0; j++){
+			if(dist[sorted_index[i]] == dist[sorted_index[j]] 
+					&& counter_points[sorted_index[i]] > counter_points[sorted_index[j]]){
+				aux = sorted_index[i];
+				sorted_index[i] = sorted_index[j];
+				sorted_index[j] = aux;
+			}
+		}
+	}
+
+	//Ordenando por ordem crescente de pontos caso a distancia seja a mesma e tenham o mesmo num de pontos
+	for(i = 0; i < counter_0 - 1; i++){
+		for(j = i + 1; j < counter_0; j++){
+			if(dist[sorted_index[i]] == dist[sorted_index[j]] 
+					&& counter_points[sorted_index[i]] == counter_points[sorted_index[j]]){
+
+			}
+		}
+	}
+
+	return SUCCESS;
+}
+*/
+
+//Poderia ter refatorado o codigo, trechos repetidos porem nao tive tempo :(
 int **exits(GRAPH *graph){
 	STACK *stack;
 	int **exit = NULL;
@@ -102,10 +190,12 @@ int **exits(GRAPH *graph){
 	int new_check = FALSE;
 	//O counter_0 sera incrementado quando uma saida for achada, ele representa quantos paths de saida existem
 	int counter_0 = 0;
-	//Variavel para guardar tamanho maximo da saida
+	//Variavel para contar quantos pontos tem cada saida
+	int *counter_points = NULL;
 	//Queria usar o stack->counter mas ele eh decrementado a cada pop na stack :(
 	stack = create_stack();
-	exit = (int **) realloc(exit, 1 * sizeof(int));
+	exit = (int **) realloc(exit, 1 * sizeof(int *));
+	counter_points = (int *) realloc(counter_points, 1 * sizeof(int));
 
 	push_stack_elem(stack, graph->start_index);
 	graph->graph_elem[graph->start_index - 1]->isActive = TRUE;
@@ -115,16 +205,16 @@ int **exits(GRAPH *graph){
 			//Se nao existem paths disponiveis, entao voltar
 			graph->graph_elem[show_stack_top(stack) - 1]->isActive = FALSE;
 			final = FALSE;
-			graph->graph_elem[show_stack_top(stack) - 1]->isPassed_counter += 1;
 			pop_stack_elem(stack);
 		}
 		else if(graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			new_check = FALSE;
 			//Escrevendo indices no vetor de saida
-			exit[counter_0] = make_exit(stack);
+			exit[counter_0] = make_exit(stack, &(counter_points[counter_0]));
 			//Aumentando o tamanho do vetor de exit, falando que tem mais um path de saida
 			counter_0++;
 			exit = (int **) realloc(exit, (counter_0 + 1) * sizeof(int));
+			counter_points = (int *) realloc(counter_points, (counter_0 + 1) * sizeof(int));
 			for(i = 0; i < graph->vertices && !new_check; i++)
 				if(graph->valid_paths[show_stack_top(stack) - 1][i] && !graph->graph_elem[i]->isActive){
 					graph->graph_elem[i]->isActive = TRUE;
@@ -136,7 +226,6 @@ int **exits(GRAPH *graph){
 			if(!new_check){
 				graph->graph_elem[show_stack_top(stack) - 1]->isActive = FALSE;
 				final = FALSE;
-				graph->graph_elem[show_stack_top(stack) - 1]->isPassed_counter += 1;
 				pop_stack_elem(stack);
 			}
 		}
