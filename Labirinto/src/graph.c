@@ -105,7 +105,7 @@ int **exits(GRAPH *graph){
 	push_stack_elem(stack, graph->start_index);
 	graph->graph_elem[graph->start_index - 1]->isActive = TRUE;
 	//Enquanto tiver elementos na pilha
-	//TODO pensar melhor na logica do aux
+	//TODO Usar matriz auxiliar para saber daonde vieram os paths
 	while(stack->counter){
 		if(!graph->graph_elem[show_stack_top(stack) - 1]->isExit && final){
 			//Se nao existem paths disponiveis, entao voltar
