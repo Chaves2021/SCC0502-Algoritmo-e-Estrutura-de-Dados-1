@@ -20,8 +20,13 @@ struct MATRIX{
 };
 typedef struct MATRIX MATRIX;
 
+//Function to create matrix
 MATRIX *complex_sparse_create(int, int, double);
-int complex_sparse_insert(int, int, double);
-int complex_sparse_remove(int, int);
+//Function to insert an element
+int complex_sparse_insert(MATRIX *, int, int, double);
+//Function to remove an element
+int complex_sparse_remove(MATRIX *, int, int);
+//Function to sum 2 matrix
 MATRIX *complex_sparse_add(MATRIX *, MATRIX *);
+//Function to multiply 2 matrix
 MATRIX *complex_sparse_mult(MATRIX *, MATRIX *);
