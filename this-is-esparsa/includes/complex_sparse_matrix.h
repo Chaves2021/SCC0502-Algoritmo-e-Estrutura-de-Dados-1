@@ -1,3 +1,5 @@
+#ifndef _COMPLEX_SPARSE_MATRIX_
+#define _COMPLEX_SPARSE_MATRIX_
 struct MATRIX_ELEM{
 	int row;
 	int col;
@@ -30,3 +32,4 @@ int complex_sparse_remove(MATRIX *, int, int);
 MATRIX *complex_sparse_add(MATRIX *, MATRIX *);
 //Function to multiply 2 matrix
 MATRIX *complex_sparse_mult(MATRIX *, MATRIX *);
+#endif

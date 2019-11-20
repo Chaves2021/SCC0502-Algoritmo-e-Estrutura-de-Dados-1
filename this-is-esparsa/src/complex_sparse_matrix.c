@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<defines.h>
 
 MATRIX *complex_sparse_create(int rows_number, int cols_number, double constant){
 	MATRIX *matrix;
@@ -19,20 +20,20 @@ MATRIX *complex_sparse_create(int rows_number, int cols_number, double constant)
 
 int complex_sparse_insert(MATRIX *matrix, int row, int col, double value){
 	if(!matrix) return INVALID_MATRIX;
-	if(row >= matrix->rows_number || col >= matrix->cols_number) return INVALID_POS;
+	if(row >= matrix->rows_number || col >= matrix->cols_number || row < 0 || col < 0) return INVALID_POS;
 	MATRIX_ELEM **row_pointer = &matrix->row_index[row];
 	MATRIX_ELEM **col_pointer = &matrix->col_index[col];
 
 	//While the row pointer is different of NULL, that means the element exists, and need to check it's position
 	//And while the element col position is smaller than the col position wanted, go right to find this coordinate
-	while(*row_pointer && *row_pointer->col < col) row_pointer = &(*row_pointer)->next_right;
+	while(*row_pointer && ((*row_pointer)->col < col)) row_pointer = &(*row_pointer)->next_right;
 	//While the col pointer is different of NULL, that means the element exists, and need to check it's position
 	//And while the element row position is smaller than the row position wanted, go bottom to find this coordinate
-	while(*col_pointer && *col_pointer->row < row) col_pointer = &(*col_pointer)->next_bottom;
+	while(*col_pointer && ((*col_pointer)->row < row)) col_pointer = &(*col_pointer)->next_bottom;
 
 	//if the element exists, so just change de elem value :)
-	if(*row_pointer && *col_pointer && *row_pointer->col == col && *col_pointer->row == row) 
-		*row_pointer->value = value;
+	if(*row_pointer && *col_pointer && ((*row_pointer)->col == col) && ((*col_pointer)->row == row)) 
+		(*row_pointer)->value = value;
 	//But if the element does not exist, create it ;)
 	else{
 		MATRIX_ELEM *elem;
@@ -46,5 +47,30 @@ int complex_sparse_insert(MATRIX *matrix, int row, int col, double value){
 		*row_pointer = *col_pointer = elem;
 
 	}
+	return SUCCESS;
+}
+
+int complex_sparse_remove(MATRIX *matrix, int row, int col){
+	if(!matrix) return INVALID_MATRIX;
+	if(row >= matrix->rows_number || col >= matrix->cols_number || row < 0 || col < 0) return INVALID_POS;
+	MATRIX_ELEM **row_pointer = &matrix->row_index[row];
+	MATRIX_ELEM **col_pointer = &matrix->col_index[col];
+
+	//While the row pointer is different of NULL, that means the element exists, and need to check it's position
+	//And while the element col position is smaller than the col position wanted, go right to find this coordinate
+	while(*row_pointer && ((*row_pointer)->col < col)) row_pointer = &(*row_pointer)->next_right;
+	//While the col pointer is different of NULL, that means the element exists, and need to check it's position
+	//And while the element row position is smaller than the row position wanted, go bottom to find this coordinate
+	while(*col_pointer && ((*col_pointer)->row < row)) col_pointer = &(*col_pointer)->next_bottom;
+
+	//if the element exists, remove it :)
+	if(*row_pointer && *col_pointer && ((*row_pointer)->col == col) && ((*col_pointer)->row == row)){
+		MATRIX_ELEM *aux = *row_pointer;
+		*row_pointer = (*row_pointer)->next_right;
+		*col_pointer = (*col_pointer)->next_bottom;
+		free(aux);
+	}	
+	//if not, bad news... :(
+	else return NOT_FOUND;
 	return SUCCESS;
 }
