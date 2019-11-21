@@ -88,56 +88,44 @@ int __complex_sparse_get(MATRIX *matrix, int row, int col){
 	if(*row_pointer && ((*row_pointer)->col == col)){
 		return (*row_pointer)->value;
 	}
-	//if not, bad news... :(
+	//if not, return const
 	else return matrix->constant;
 }
 
 MATRIX *complex_sparse_add(MATRIX *first, MATRIX *second){
-	int indice;
+	int indice_x;
+	int indice_y;
 	int value;
 	MATRIX *matrix_add;
-	MATRIX_ELEM *p;
-	MATRIX_ELEM *q;
 	matrix_add = complex_sparse_create(first->rows_number, first->cols_number, 0);
-	/*
-	for(indice = 0; indice < matrix_add->rows_number; indice++){
-		for(p = first->row_index[indice]; p; p = p->next_right){
-			value = __complex_sparse_get(first, p->row, p->col) + __complex_sparse_get(second, p->row, p->col);
-			complex_sparse_insert(matrix_add, p->row, p->col, value);
-		}
-	}
-	*/
-	for(indice = 0; indice < matrix_add->rows_number; indice++){
-		p = first->row_index[indice]; q = second->row_index[indice];
-		while(p || q){
-			if(p && q){
-				value = __complex_sparse_get(first, p->row, p->col) + __complex_sparse_get(second, p->row, p->col);
-				complex_sparse_insert(matrix_add, p->row, p->col, value);
-				p = p->next_right;
-				q = q->next_right;
-			}
-			else if(p){
-				value = __complex_sparse_get(first, p->row, p->col) + __complex_sparse_get(second, p->row, p->col);
-				complex_sparse_insert(matrix_add, p->row, p->col, value);
-				p = p->next_right;
-			}
-			else{
-				value = __complex_sparse_get(first, q->row, q->col) + __complex_sparse_get(second, q->row, q->col);
-				complex_sparse_insert(matrix_add, q->row, q->col, value);
-				q = q->next_right;
-			}
+	//Passing each elem of matrix, not an efficient search :(
+	for(indice_x = 0; indice_x < matrix_add->rows_number; indice_x++){
+		for(indice_y = 0; indice_y < matrix_add->cols_number; indice_y++){
+			value = __complex_sparse_get(first, indice_x, indice_y) + __complex_sparse_get(second, indice_x, indice_y);
+			if(value != 0) complex_sparse_insert(matrix_add, indice_x, indice_y, value);
 		}
 	}
 	return matrix_add;
 }
 
 MATRIX *complex_sparse_mult(MATRIX *first, MATRIX *second){
-	int i;
-	MATRIX *mult_matrix;
-	mult_matrix = complex_sparse_create(first->rows_number, first->cols_number, 0);
-	for(i = 0; i < mult_matrix->rows_number; i++){
+	int row;
+	int col;
+	int value = 0;
+	int counter = 0;
+	MATRIX *matrix_mult;
+	matrix_mult = complex_sparse_create(first->rows_number, second->cols_number, 0);
+	//Passing each elem of matrix, not an efficient search :(
+	for(row = 0; row < matrix_mult->rows_number; row++){
+		for(col = 0; col < matrix_mult->cols_number; col++){
+			value = 0;
+			for(counter = 0; counter < matrix_mult->rows_number; counter++){
+				value += __complex_sparse_get(first, row, counter) * __complex_sparse_get(second, counter, col);
+			}
+			if(value != 0) complex_sparse_insert(matrix_mult, row, col, value);
+		}
 	}
-	return mult_matrix;
+	return matrix_mult;
 }
 
 int complex_sparse_print(MATRIX *matrix){

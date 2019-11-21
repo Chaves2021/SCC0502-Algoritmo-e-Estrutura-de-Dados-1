@@ -9,7 +9,7 @@ int main(void){
 	MATRIX *third;
 	char operation;
 	int rows_number, cols_number, constant;
-	int row, col, value;
+	int row = 0, col = 0, value = 0;
 
 	//Storing operation
 	scanf("%c", &operation);
