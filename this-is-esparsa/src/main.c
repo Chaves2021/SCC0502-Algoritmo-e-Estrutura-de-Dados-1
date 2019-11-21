@@ -4,19 +4,40 @@
 #include<complex_sparse_matrix.h>
 #include<defines.h>
 int main(void){
-	int rows_number = 10;
-	int cols_number = 10;
-	int row = 0;
-	int col = 3;
-	int value = 100;
-	MATRIX *matrix = complex_sparse_create(rows_number, cols_number, 0);
-	complex_sparse_insert(matrix, row, col, value);
-	complex_sparse_insert(matrix, row + 1, col + 1, value / 10);
-	complex_sparse_insert(matrix, row + 2, col - 1, value + 100);
-	complex_sparse_remove(matrix, row, col);
+	MATRIX *first;
+	MATRIX *second;
+	MATRIX *third;
+	char operation;
+	int rows_number, cols_number, constant;
+	int row, col, value;
 
+	//Storing operation
+	scanf("%c", &operation);
 
+	//reading first matrix
+	scanf("%d %d %d", &constant, &rows_number, &cols_number);
+	first = complex_sparse_create(rows_number, cols_number, 0);
+	while(scanf("%d %d %d", &row, &col, &value) && row != -1){
+		complex_sparse_insert(first, row, col, value);
+	}
 
+	//reading second matrix
+	second = complex_sparse_create(col, value, 0);
+	while(scanf("%d %d %d", &row, &col, &value) != EOF){
+		complex_sparse_insert(second, row, col, value);
+	}
+
+	if(operation == 'M') third = complex_sparse_mult(first, second);
+	else if(operation == 'A') third = complex_sparse_add(first, second);
+
+	//Print the answer
+	complex_sparse_print(third);
+
+	/*
+	complex_sparse_free(first);
+	complex_sparse_free(second);
+	complex_sparse_free(third);
+	*/
 
 	return SUCCESS;
 }
