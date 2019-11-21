@@ -74,3 +74,26 @@ int complex_sparse_remove(MATRIX *matrix, int row, int col){
 	else return NOT_FOUND;
 	return SUCCESS;
 }
+
+MATRIX *complex_sparse_add(MATRIX *matrix0, MATRIX *matrix1){
+}
+
+int __complex_sparse_get(MATRIX *matrix, int row, int col){
+	if(!matrix) return INVALID_MATRIX;
+	if(row >= matrix->rows_number || col >= matrix->cols_number || row < 0 || col < 0) return INVALID_POS;
+	MATRIX_ELEM **row_pointer = &matrix->row_index[row];
+	MATRIX_ELEM **col_pointer = &matrix->col_index[col];
+
+	//While the row pointer is different of NULL, that means the element exists, and need to check it's position
+	//And while the element col position is smaller than the col position wanted, go right to find this coordinate
+	while(*row_pointer && ((*row_pointer)->col < col)) row_pointer = &(*row_pointer)->next_right;
+	//While the col pointer is different of NULL, that means the element exists, and need to check it's position
+	//And while the element row position is smaller than the row position wanted, go bottom to find this coordinate
+	while(*col_pointer && ((*col_pointer)->row < row)) col_pointer = &(*col_pointer)->next_bottom;
+
+	//if the element exists, return it :)
+	if(*row_pointer && *col_pointer && ((*row_pointer)->col == col) && ((*col_pointer)->row == row))
+		return *row_pointer->value;
+	//if not, bad news... :(
+	else return NOT_FOUND;
+}
