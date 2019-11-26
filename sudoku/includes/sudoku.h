@@ -4,7 +4,7 @@
 //Function to allocate matrix
 char **allocMat(int, int);
 //Function to read matrix
-char **readMat(char *, int *, int *);
+char **readMat(char **, char *, int, int);
 //Function to print matrix
 int printMat(char **, int, int);
 

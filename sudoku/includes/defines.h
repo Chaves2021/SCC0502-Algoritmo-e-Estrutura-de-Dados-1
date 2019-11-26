@@ -3,6 +3,7 @@
 
 #define TRUE		 1
 #define FALSE		 0
+#define MATRIX_SIZE	16
 
 #define SUCCESS		 0
 
