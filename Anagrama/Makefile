@@ -1,7 +1,7 @@
 CC=gcc
 BINARY=./bin/trab
 INCLUDES=./includes/
-SRC=./src/fourier.c ./src/file.c ./src/trab.c
+SRC=./src/hash.c ./src/main.c
 OPTIONS=-Wall -g -lm
 TEST=casos/1.in
 
