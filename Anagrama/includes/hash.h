@@ -2,16 +2,16 @@
 #define _HASH_
 
 struct hash_elem{
+	char letter;
 	int value; //value that represents each letter and can only be prime
 	int frequency; //frequency that letter appears
-	int isDeleted; //tag to see if the elem in this place has been deleted
-	int isAllocated; //tag to see if the elme in this place has been assigned with a value
+	struct hash_elem *next; //the next hash elem with same index
 };
-#typedef struct hash_elem HASH_ELEM;
+typedef struct hash_elem HASH_ELEM;
 
 struct hash_table{
 	HASH_ELEM **hash_elem; //the element of the hash table
-	int size; //size of hash table
+	int size;
 };
 typedef struct hash_table HASH_TABLE;
 
